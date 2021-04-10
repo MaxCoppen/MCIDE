@@ -10,13 +10,13 @@ module.exports = {
                     allowToChangeInstallationDirectory: true,
                     deleteAppDataOnUninstall: true,
                     createDesktopShortcut: true,
-                    installerIcon: "public/icon.ico",
-                    uninstallerIcon: "public/icon.ico",
+                    installerIcon: "public/install-icon.ico",
+                    uninstallerIcon: "public/uninstall-icon.ico",
                     uninstallDisplayName: "Uninstall MCIDE"
                 },
                 win: {
                     target: "nsis",
-                    icon: 'build/icon.ico',
+                    icon: 'public/icon.ico',
                     publisherName: "Max Coppen"
                 },
                 productName: "MCIDE",
@@ -25,7 +25,7 @@ module.exports = {
                 directories: {
                     output: './releases'
                 },
-                files: ["**/*", "public/icon.*"]
+                files: ["**/*", "public/*"]
             }
         }
     }
