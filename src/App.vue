@@ -4,19 +4,21 @@
     <div class="d-flex align-items-start flex-column h-100">
 
       <!-- Window Titlebar -->
-      <titlebar @minWindow="minimize()" @maxWindow="maximize()" @closeWindow="close()" />
+      <titlebar @minWindow="minimize()" @maxWindow="maximize()" @closeWindow="close()" @iconUpdate="iconUpdate()" />
 
       <!-- Window Toolbar -->
       <toolbar @openSettings="debug('open settings')" @commentLine="debug('comment line')" @uncommentLine="debug('uncomment line')" />
 
       <!-- Window Body -->
       <div class="d-flex flex-grow-1 flex-row w-100">
+
         <direxplorer/>
         <codebox/>
+
       </div>
 
       <!-- Window Footer -->
-      <winfooter/>
+      <winfooter files="128" projectLength="3216" fileLength="246" filePath="C:\Your\Folder\file.txt" codeLanguage="C#" editorVersion="1.0.1" />
 
     </div>
   </div>
@@ -30,7 +32,7 @@ var window = remote.getCurrentWindow()
 
 // Custom vue components:
 import titlebar from './components/Titlebar/Titlebar'
-import toolbar from './components/Toolbar/Toolbar'
+import toolbar from './components/Toolbars/AppToolbar'
 
 import codebox from './components/Body/CodeBox'
 import direxplorer from './components/Body/DirExplorer'

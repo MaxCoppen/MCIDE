@@ -1,4 +1,7 @@
 <script>
+// Electron remote:
+import { remote } from 'electron'
+var window = remote.getCurrentWindow()
 
 import Button from '../Buttons/WindowButton'
 
@@ -11,13 +14,21 @@ export default {
         };
     },
 
+    mounted() {
+        window.on('maximize', () => {
+            this.maximized = true
+        })
+
+        window.on('unmaximize', () => {
+            this.maximized = false
+        })
+    },
+
     methods: {
 
         maximize() {
-            this.maximized = !this.maximized
             this.$emit('maxWindow')
-            this.$emit('iconUpdate')
-        }
+        },
 
     },
 }
@@ -45,7 +56,8 @@ export default {
                 <Button icon="minus" stroke="2px" height="16px" @onclick="$emit('minWindow')" />
 
                 <!-- Maximize Window Button -->
-                <Button :key="maximized" :icon="maximized ? 'minimize' : 'maximize'" stroke="3px" height="12px" @onclick="maximize()" />
+                <Button v-show="maximized" icon="minimize" stroke="3px" height="12px" @onclick="maximize()" />
+                <Button v-show="!maximized" icon="maximize" stroke="3px" height="12px" @onclick="maximize()" />
 
                 <!-- Close Window Button -->
                 <Button icon="x" stroke="2px" height="16px" @onclick="$emit('closeWindow')" class="close-button" />

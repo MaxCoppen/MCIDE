@@ -1,9 +1,3 @@
-<script>
-
-export default {}
-
-</script>
-
 <template>
 
 <div class="footer">
@@ -12,27 +6,33 @@ export default {}
         <!-- Directory Information -->
         <div class="dir-info d-flex justify-content-start h-100">
 
-            <p class="txt"> Files </p>
+            <i class="ico" data-feather="file"></i>
+            <p class="txt monospace"> {{files}} </p>
 
-            <p class="txt"> Total Length </p>
+            <i class="ico" data-feather="file-text"></i>
+            <p class="txt monospace"> {{projectLength}} </p>
 
         </div>
 
         <!-- File Information -->
         <div class="d-flex justify-content-start h-100">
 
-            <p class="txt"> File Length </p>
+            <i class="ico" data-feather="code"></i>
+            <p class="txt monospace"> {{fileLength}} </p>
 
-            <p class="txt"> Relative Filepath </p>
+            <i class="ico" data-feather="at-sign"></i>
+            <p class="txt monospace"> {{filePath}} </p>
 
         </div>
 
         <!-- Code Information -->
         <div class="d-flex justify-content-end flex-grow-1 h-100">
 
-            <p class="txt"> Language </p>
+            <i class="ico" data-feather="command"></i>
+            <p class="txt monospace"> {{codeLanguage}} </p>
 
-            <p class="txt"> Version </p>
+            <i class="ico" data-feather="hash"></i>
+            <p class="txt monospace"> {{editorVersion}} </p>
 
         </div>
 
@@ -40,6 +40,41 @@ export default {}
 </div>
 
 </template>
+
+<script>
+
+export default {
+    props: {
+        files: {
+            type: Number,
+            default: 0
+        },
+        projectLength: {
+            type: Number,
+            default: 0
+        },
+
+        fileLength: {
+            type: Number,
+            default: 0
+        },
+        filePath: {
+            type: String,
+            default: '-'
+        },
+
+        codeLanguage: {
+            type: String,
+            default: '-'
+        },
+        editorVersion: {
+            type: String,
+            default: '1.0.0'
+        },
+    },
+}
+
+</script>
 
 <style scoped>
 
@@ -58,7 +93,13 @@ export default {}
     width: calc(100vw / 4) !important;
     min-width: 150px;
     max-width: 350px;
-    margin-right: 6px;
+}
+
+.ico {
+    color: #7F7F7F;
+    height: 12px;
+    width: 12px;
+    margin: 4px 3px 0px 3px;
 }
 
 .txt {
@@ -66,16 +107,10 @@ export default {}
     font-weight: 600;
     font-size: 12px;
 
-    padding-left: 5px;
     padding-right: 5px;
+    margin-top: 0.5px;
 
     width: auto;
-    transition: all 0.2s;
-}
-
-.txt:hover {
-    color: #D9D9D9;
-    transition: all 0.2s;
 }
 
 </style>
