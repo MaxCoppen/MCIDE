@@ -12,7 +12,7 @@
       <!-- Window Body -->
       <div class="d-flex flex-grow-1 flex-row w-100">
 
-        <direxplorer :dirTree="['file one','file two','folder/','folder/file three']" />
+        <direxplorer @iconUpdate="iconUpdate()" />
         <codebox/>
 
       </div>
@@ -74,7 +74,7 @@ export default {
 
     // Update the icons.
     iconUpdate() {
-      feather.replace()
+      setTimeout(() => { feather.replace(); }, 10);
     },
 
     debug(msg) {

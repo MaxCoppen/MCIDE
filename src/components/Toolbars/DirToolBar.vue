@@ -6,26 +6,25 @@
         <div class="d-flex align-items-start flex-row h-100">
 
             <!-- Left Side -->
-            <div class="d-flex justify-content-start flex-row w-100 h-100">
+            <div class="left-side d-flex justify-content-start flex-row flex-grow-1">
 
                 <!-- Open Project Button -->
-                <Button icon="folder" stroke="2px" height="16px" @onclick="$emit('openSettings')" class="btn" />
+                <Button icon="folder" stroke="2px" height="16px" @onclick="$emit('openFolder')" class="btn" style="min-width: 30px" />
+
+                <div class="project-name"> {{projectName}} </div>
 
             </div>
 
             <!-- Right Side -->
-            <div class="tools">
-
-                <div class="d-flex justify-content-end flex-row w-100 h-100">
+            <div class="right-side d-flex justify-content-end flex-row">
 
                     <!-- Build Project Button -->
-                    <Button icon="download" stroke="2px" height="16px" @onclick="$emit('commentLine')" class="btn comment-line" />
+                    <Button icon="download" stroke="2px" height="16px" @onclick="$emit('buildProject')" class="btn" />
 
                     <!-- Save Project Button -->
-                    <Button icon="save" stroke="2px" height="16px" @onclick="$emit('uncommentLine')" class="btn" />
+                    <Button icon="save" stroke="2px" height="16px" @onclick="$emit('saveProject')" class="btn" />
 
                 </div>
-            </div>
         </div>
     </div>
 
@@ -37,6 +36,13 @@ import Button from '../Buttons/IconButton'
 
 export default {
     components: { Button },
+
+    props: {
+        projectName: {
+            type: String,
+            default: '-'
+        },
+    },
 }
 
 </script>
@@ -49,6 +55,30 @@ export default {
     background-color: #222222;
     width: 100%;
     height: 30px;
+}
+
+.right-side {
+    width: 60px;
+    height: 100%;
+}
+
+.left-side {
+    min-width: 30px;
+    width: 100%;
+    height: 100%;
+}
+
+.project-name {
+    color: #555555;
+    text-transform: uppercase;
+    white-space: nowrap;
+    overflow:hidden;
+    font-size: clamp(12.5px, 2.25vw, 15px);
+    font-weight: 450;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    margin-top: 5px;
 }
 
 .tools {
