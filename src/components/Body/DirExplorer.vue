@@ -6,9 +6,11 @@
 
             <div class="dir-panel flex-grow-1 overflow-auto">
                 <div class="directories">
-                    <div v-for="dir in dirTree" :key="dir" class="d-flex flex-row">
+                    <filebutton v-for="dir in dirTree" :key="dir" :dir="dir" />
 
-                        <!-- If last char is not '/' then this is not a folder -->
+                    <!--<div v-for="dir in dirTree" :key="dir" class="d-flex flex-row">
+
+                        If last char is not '/' then this is not a folder 
                         <div class="d-flex" :style="{ marginLeft: dir.slice(-1) != '\\' ? (dir.replace(/[^\\]/g, '').length * 15) + 'px' : (dir.replace(/[^\\]/g, '').length * 15 - 15) + 'px' }" >
 
                             <i v-if="!(dir.slice(-1) == '\\')" class="ico" data-feather="file"></i>
@@ -22,7 +24,7 @@
 
                         </div>
 
-                    </div>
+                    </div>-->
                 </div>
             </div>
 
@@ -32,13 +34,14 @@
 </template>
 
 <script>
-//import fs from 'fs'
 const { remote } = require('electron')
+import readDir from '../../js/input-output'
 
 import toolbar from '../Toolbars/DirToolBar'
+import filebutton from '../Buttons/FileButton'
 
 export default {
-    components: { toolbar },
+    components: { toolbar, filebutton },
 
     data() {
         return {
@@ -48,33 +51,8 @@ export default {
     },
 
     methods: {
-        /* Open a folder */
+        // Open a folder.
         openFolder() {
-            const fs = require("fs")
-            const path = require("path")
-
-            const getAllFiles = function(dirPath, arrayOfFiles) {
-                var files = fs.readdirSync(dirPath)
-
-                arrayOfFiles = arrayOfFiles || []
-
-                files.forEach(function(file) {
-                    
-                    // If folder then look inside of it.
-                    if (fs.statSync(dirPath + "/" + file).isDirectory()) {
-                        // Push this folder and add a '/'.
-                        arrayOfFiles.push(path.join(dirPath.split('\\')[dirPath.split('\\').length - 1], "/", file + '/'))
-
-                        arrayOfFiles = getAllFiles(dirPath + "/" + file, arrayOfFiles)
-                    } else {
-                        // Push this file.
-                        arrayOfFiles.push(path.join(dirPath.split('\\')[dirPath.split('\\').length - 1], "/", file))
-                    }
-                })
-
-                return arrayOfFiles
-            }
-
             remote.dialog.showOpenDialog({ 
                 properties: ['openDirectory']
             })
@@ -84,13 +62,14 @@ export default {
 
                     this.dirTree.clear()
 
-                    var files = getAllFiles(result.filePaths[0], [])
+                    var files = readDir(result.filePaths[0], [])
                     files.forEach(file => this.dirTree.add(file));
 
                     this.$emit('iconUpdate')
                 }
             })
         }
+        
     }
 }
 
@@ -116,7 +95,7 @@ export default {
 }
 
 .directories {
-    width: 100%;
+    min-width: 200px; /* Fit this size ! Not responsive ! */
     height: 100%;
     margin-left: -7.5px;
 }
