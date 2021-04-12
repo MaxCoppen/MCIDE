@@ -16,8 +16,8 @@ async function createWindow() {
     width: 800,
     height: 600,
 
-    minWidth: 200,
-    minHeight: 200,
+    minWidth: 210,
+    minHeight: 210,
 
     frame: false,
     backgroundColor: "#404040",

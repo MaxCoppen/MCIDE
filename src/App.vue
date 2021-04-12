@@ -12,7 +12,7 @@
       <!-- Window Body -->
       <div class="d-flex flex-grow-1 flex-row w-100">
 
-        <direxplorer/>
+        <direxplorer :dirTree="['file one','file two','folder/','folder/file three']" />
         <codebox/>
 
       </div>
