@@ -13,12 +13,12 @@
       <div class="d-flex flex-grow-1 flex-row w-100">
 
         <direxplorer @iconUpdate="iconUpdate()" />
-        <codebox/>
+        <codebox @fileLoaded="fileLoaded" @onUpdate="fileUpdate" />
 
       </div>
 
       <!-- Window Footer -->
-      <winfooter files="128" projectLength="3216" fileLength="246" filePath="C:\Your\Folder\file.txt" codeLanguage="C#" editorVersion="1.0.1" />
+      <winfooter :files="128" :projectLength="3216" :fileLength="fileLength" :filePath="filePath" codeLanguage="C" editorVersion="1.0.1" />
 
     </div>
   </div>
@@ -46,6 +46,13 @@ export default {
   name: 'App',
 
   components: { titlebar, toolbar, codebox, direxplorer, winfooter },
+
+  data() {
+    return {
+      filePath: 'C:/',
+      fileLength: 0
+    }
+  },
 
   mounted() {
     feather.replace()
@@ -77,6 +84,16 @@ export default {
       setTimeout(() => { feather.replace(); }, 10);
     },
 
+    // Called when a new file is loaded.
+    fileLoaded(path) {
+      this.filePath = path
+    },
+
+    // Called when a file is updated.
+    fileUpdate(length) {
+      this.fileLength = length
+    },
+
     debug(msg) {
       console.log(msg)
     }
@@ -91,6 +108,7 @@ export default {
   font-family: 'Poppins', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
   text-align: center;
   color: #D9D9D9;
   background-color: #404040;

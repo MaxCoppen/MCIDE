@@ -96,9 +96,10 @@ export default {
     background-color: #222222;
     color: #7F7F7F;
 
-    width: calc(100vw / 4) !important;
-    min-width: 150px;
-    max-width: 350px;
+    resize: horizontal;
+    min-width: clamp(150px, calc(100vw / 4), 350px);
+    /*width: clamp(150px, calc(100vw / 4), 350px) !important;
+    min-width: clamp(150px, calc(100vw / 4), 350px) !important;*/
 }
 
 .dir-panel {
