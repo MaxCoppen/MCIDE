@@ -6,9 +6,9 @@
 
             <div class="dir-panel flex-grow-1 overflow-auto">
                 <div class="directories">
-                    <filebutton v-for="dir in dirTree" :key="dir" :dir="dir" />
+                    <!--<filebutton v-for="dir in dirTree" :key="dir" :dir="dir" />
 
-                    <!--<div v-for="dir in dirTree" :key="dir" class="d-flex flex-row">
+                    <div v-for="dir in dirTree" :key="dir" class="d-flex flex-row">
 
                         If last char is not '/' then this is not a folder 
                         <div class="d-flex" :style="{ marginLeft: dir.slice(-1) != '\\' ? (dir.replace(/[^\\]/g, '').length * 15) + 'px' : (dir.replace(/[^\\]/g, '').length * 15 - 15) + 'px' }" >
@@ -37,16 +37,17 @@
 const { remote } = require('electron')
 import readDir from '../../js/input-output'
 
-import toolbar from '../Toolbars/DirToolBar'
-import filebutton from '../Buttons/FileButton'
+import toolbar from './DirToolbar'
+//import filebutton from '../Buttons/FileButton'
 
 export default {
-    components: { toolbar, filebutton },
+    components: { toolbar, /*filebutton*/ },
 
     data() {
         return {
             dirName: '-',
-            dirTree: new Set([])
+            dirTree: new Set([]),
+            dirObjects: new Set([])
         }
     },
 
@@ -64,6 +65,18 @@ export default {
 
                     var files = readDir(result.filePaths[0], [])
                     files.forEach(file => this.dirTree.add(file));
+
+                    var obj = {}
+                    files.forEach(function(path) {
+                        path.split('\\').reduce(function(r, e) {
+                            return r[e] || (r[e] = {})
+                        }, obj)
+                    })
+
+                    this.dirObjects.clear()
+                    obj.forEach(o => this.dirObjects.add(o))
+
+                    console.log(this.dirObjects)
 
                     this.$emit('iconUpdate')
                 }
@@ -83,7 +96,7 @@ export default {
     background-color: #222222;
     color: #7F7F7F;
 
-    width: calc(100vw / 4);
+    width: calc(100vw / 4) !important;
     min-width: 150px;
     max-width: 350px;
 }
@@ -95,7 +108,7 @@ export default {
 }
 
 .directories {
-    min-width: 200px; /* Fit this size ! Not responsive ! */
+    width: 100%;
     height: 100%;
     margin-left: -7.5px;
 }

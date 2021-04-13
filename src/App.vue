@@ -31,13 +31,13 @@ import { remote } from 'electron'
 var window = remote.getCurrentWindow()
 
 // Custom vue components:
-import titlebar from './components/Titlebar/Titlebar'
-import toolbar from './components/Toolbars/AppToolbar'
+import titlebar from './components/Window/Titlebar'
+import toolbar from './components/Window/Toolbar'
 
-import codebox from './components/Body/CodeBox'
-import direxplorer from './components/Body/DirExplorer'
+import codebox from './components/Editor/CodeBox'
+import direxplorer from './components/FileSystem/DirExplorer'
 
-import winfooter from './components/WindowFooter/Footer'
+import winfooter from './components/Window/Footer'
 
 // Icons component:
 import feather from 'feather-icons'
