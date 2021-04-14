@@ -1,7 +1,7 @@
 <template>
 
 <div ref="container" class="container editor flex-grow-1">
-  <div ref="editor" class="monaco" :style="{ opacity: open ? 1 : 0 }"></div>
+  <div v-show="open" ref="editor" class="monaco"></div>
 </div>
 
 </template>
@@ -11,6 +11,7 @@ const { remote } = require('electron')
 import * as monaco from 'monaco-editor';
 
 import './themes';
+import shortcuts from './shortcuts';
 
 export default {
   data() {
@@ -24,11 +25,15 @@ export default {
 
     this.editor = monaco.editor.create(el, {
       value: '',
-      language: 'javascript',
+      language: 'c',
       theme: 'mcide-dark',
       fontFamily: 'IBM Plex Mono',
+      tabSize: 4,
       scrollBeyondLastLine: false
     });
+
+    this.editor.addAction(shortcuts.SaveFile(() => this.$emit('saveFile')))
+    this.editor.addAction(shortcuts.OpenFile(() => this.$emit('openFile')))
 
     const refresh = () => 
     { 
@@ -38,12 +43,15 @@ export default {
       }, 100)
     }
 
+    setTimeout(() => monaco.editor.remeasureFonts(), 100)
+
     remote.getCurrentWindow().on('resized', refresh)
     remote.getCurrentWindow().on('maximize', refresh)
     remote.getCurrentWindow().on('unmaximize', refresh)
 
     this.editor.getModel().onDidChangeContent(() => {
       this.$emit('onUpdate', this.editor.getModel().getLineCount())
+      refresh()
     });
   },
 
@@ -52,6 +60,10 @@ export default {
       this.open = true
       this.editor.getModel().setValue(content)
       this.$emit('onUpdate', this.editor.getModel().getLineCount())
+    },
+
+    getValue() {
+      return this.editor.getModel().getValue()
     }
   }
 };

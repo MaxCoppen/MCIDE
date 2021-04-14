@@ -49,9 +49,6 @@ export default {
     user-select: none;
     -webkit-user-select: none;
     background-color: #333333;
-    border-bottom-color: #333333;
-    border-bottom-width: 2px;
-    border-bottom-style: solid;
     width: 100%;
     height: 30px;
 }
@@ -63,11 +60,10 @@ export default {
 }
 
 .filename {
-    user-select: text;
-    -webkit-user-select: text;
-    margin-top: 4px;
-    margin-left: 0px;
-    color: #666666;
+    margin-top: 4.5px;
+    margin-left: 4.5px;
+    font-weight: 300;
+    color: #858585;
 }
 
 .btn {
