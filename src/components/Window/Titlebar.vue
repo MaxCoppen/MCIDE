@@ -83,7 +83,7 @@ export default {
 
 .title {
     -webkit-app-region: no-drag;
-    color: #7F7F7F;
+    color: var(--text-dark);
     font-weight: 600; 
     letter-spacing: 1px; 
     font-size: 12px; 
@@ -95,7 +95,7 @@ export default {
 }
 
 .title:hover {
-    color: #D9D9D9;
+    color: var(--text-light);
     transition: all 0.2s;
 }
 
@@ -114,7 +114,7 @@ export default {
 
 .close-button:hover {
     background-color: #FF5050;
-    color: #D9D9D9;
+    color: var(--text-light);
 }
 
 .close-button:active {

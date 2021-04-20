@@ -19,11 +19,11 @@ export default {
 <style scoped>
 
 .tabs {
-    background-color: #333333;
-    color: #7F7F7F;
+    background-color: var(--background);
+    color: var(--text-dark);
 
     z-index: 1;
-    box-shadow: 0px 5px 10px #22222266;
+    box-shadow: 0px 5px 10px var(--shadow);
 
     height: 30px;
     width: 100%;

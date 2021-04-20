@@ -8,7 +8,7 @@
 
       <!-- Window Toolbar -->
       <toolbar 
-        @openSettings="debug('open settings')" 
+        @openSettings="themeSwitch()" 
         @openFile="openFile()" @openFolder="openFolder()" 
         @commentLine="debug('comment line')" 
         @uncommentLine="debug('uncomment line')" 
@@ -38,7 +38,10 @@
 import { remote } from 'electron'
 var window = remote.getCurrentWindow()
 const fs = require("fs")
+
+// Custom js files:
 import readDir from './js/input-output'
+import editorTheme from "./js/editor-theme";
 
 // Custom vue components:
 import titlebar from './components/Window/Titlebar'
@@ -60,6 +63,8 @@ export default {
 
   data() {
     return {
+      themeManager: null,
+
       filePath: 'C:/',
       fileLength: 0,
       files: [],
@@ -72,6 +77,12 @@ export default {
     this.files.push({ name: 'js_file', path: 'D:/System/file', type: 'js' })
 
     this.iconUpdate()
+  },
+
+  created() {
+    this.themeManager = new editorTheme()
+
+    this.themeManager.setDarkTheme()
   },
 
   methods: {
@@ -93,6 +104,11 @@ export default {
     // Close the current window.
     close () {
       window.close()
+    },
+
+    // Switch the editor theme.
+    themeSwitch() {
+      this.themeManager.darkThemeSwitch();
     },
 
     // Update the icons.
@@ -176,11 +192,15 @@ export default {
 
 <style>
 
+body * {
+    transition: background-color 0.2s, box-shadow 0.2s;
+}
+
 #app {
   overflow: hidden;
   text-align: center;
-  color: var(--text-light); /* dark: D9D9D9 */
-  background-color: var(--background-light); /* dark: 404040 */
+  color: var(--text-light);
+  background-color: var(--background-light);
 }
 
 </style>

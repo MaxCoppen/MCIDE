@@ -82,8 +82,10 @@ export default {
     user-select: none;
     -webkit-user-select: none;
 
-    background-color: #404040;
+    background-color: var(--background-light);
     overflow: hidden;
+
+    z-index: 3;
 
     position: fixed;
     left: 0;
@@ -100,14 +102,14 @@ export default {
 }
 
 .ico {
-    color: #7F7F7F;
+    color: var(--text-dark);
     height: 12px;
     width: 12px;
     margin: 4px 3px 0px 3px;
 }
 
 .txt {
-    color: #7F7F7F;
+    color: var(--text-dark);
     font-weight: 600;
     font-size: 12px;
 

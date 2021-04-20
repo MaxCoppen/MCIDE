@@ -27,8 +27,10 @@ export default {
 .dir-explorer {
     user-select: none;
     -webkit-user-select: none;
-    background-color: #222222;
-    color: #7F7F7F;
+    background-color: var(--background-dark);
+    color: var(--text-dark);
+
+    z-index: 2;
 
     resize: horizontal;
     min-width: clamp(150px, calc(100vw / 4), 350px);
@@ -75,12 +77,12 @@ export default {
 
 ::-webkit-scrollbar-thumb {
     border-radius: 3.5px;
-    border: 2px solid #222222;
-	background-color: #555555;
+    border: 2px solid var(--background-dark);
+	background-color: var(--text-darker);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background-color: #777777;
+    background-color: var(--text);
 }
 
 </style>

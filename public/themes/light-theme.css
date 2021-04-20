@@ -3,8 +3,14 @@
     --text: #555555;
     --text-dark: #222222;
     --text-darker: #111111;
+
+    
+    --background-lighter: #eeeeee;
     --background-light: #dddddd;
     --background: #cccccc;
     --background-dark: #c0c0c0;
     --background-darker: #b0b0b0;
+    
+
+    --shadow: #22222222;
 }

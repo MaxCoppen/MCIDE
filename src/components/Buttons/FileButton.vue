@@ -38,8 +38,8 @@ export default {
 <style scoped>
 
 button {
-    background-color: #222222;
-    color: #666666;
+    background-color: var(--background-dark);
+    color: var(--text-darker);
 
     box-shadow: none !important; 
     outline: 0 !important;
@@ -53,14 +53,14 @@ button {
 }
 
 button:hover {
-    background-color: #333333;
-    color: #888888;
+    background-color: var(--background);
+    color: var(--text);
     transition: all 0.2s;
 }
 
 button:active {
-    background-color: #262626;
-    color: #D9D9D9;
+    background-color: var(--background-dark);
+    color: var(--text-light);
     transition: all 0.2s;
 }
 

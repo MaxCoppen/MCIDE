@@ -26,8 +26,8 @@ export default {
 <style scoped>
 
 button {
-    background-color: #404040;
-    color: #7F7F7F;
+    background-color: var(--background-light);
+    color: var(--text-dark);
 
     box-shadow: none !important; 
     outline: 0 !important;
@@ -41,14 +41,14 @@ button {
 }
 
 button:hover {
-    background-color: #535353;
-    color: #D9D9D9;
+    background-color: var(--background-lighter);
+    color: var(--text-light);
     transition: all 0.2s;
 }
 
 button:active {
-    background-color: #262626;
-    color: #7F7F7F;
+    background-color: var(--background-dark);
+    color: var(--text-dark);
     transition: all 0.2s;
 }
 

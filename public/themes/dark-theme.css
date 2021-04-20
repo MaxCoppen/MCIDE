@@ -1,10 +1,22 @@
 :root {
+    /*
     --text-light: #D9D9D9;
     --text: #888888;
     --text-dark: #7F7F7F;
     --text-darker: #666666;
+    */
+    --text-light: #D9D9D9;
+    --text: #888888;
+    --text-dark: #7F7F7F;
+    --text-darker: #666666;
+    
+
+    --background-lighter: #555555;
     --background-light: #404040;
     --background: #333333;
     --background-dark: #222222;
     --background-darker: #111111;
+
+
+    --shadow: #22222266;
 }

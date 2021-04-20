@@ -52,7 +52,7 @@ export default {
 .toolbar {
     user-select: none;
     -webkit-user-select: none;
-    background-color: #404040;
+    background-color: var(--background-light);
     width: 100%;
     height: 30px;
 }
@@ -71,23 +71,23 @@ export default {
 }
 
 .btn-left:hover {
-    background-color: #4d4d4d;
-    color: #7F7F7F;
+    background-color: var(--background-lighter);
+    color: var(--text-dark);
 }
 
 .btn-left:active {
-    background-color: #222222;
-    color: #D9D9D9;
+    background-color: var(--background-dark);
+    color: var(--text-light);
 }
 
 .btn-right:hover {
-    background-color: #4d4d4d;
-    color: #7F7F7F;
+    background-color: var(--background-lighter);
+    color: var(--text-dark);
 }
 
 .btn-right:active {
-    background-color: #333333;
-    color: #D9D9D9;
+    background-color: var(--background);
+    color: var(--text-light);
 }
 
 .comment-line {

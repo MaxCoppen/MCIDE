@@ -66,8 +66,8 @@ export default {
 <style>
 
 .code-box {
-    background-color: var(--background); /* #333333 */
-    color: #7F7F7F;
+    background-color: var(--background);
+    color: var(--text-dark);
 
     width: 100%;
     height: 100%;

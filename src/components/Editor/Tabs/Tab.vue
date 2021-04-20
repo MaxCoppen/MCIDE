@@ -16,8 +16,8 @@ export default {
 <style scoped>
 
 .tab {
-    background-color: #333333;
-    color: #7F7F7F;
+    background-color: var(--background);
+    color: var(--text-dark);
 
     box-shadow: none !important; 
     outline: 0 !important;
@@ -34,11 +34,11 @@ export default {
 }
 
 .tab:hover {
-    background-color: #222222;
+    background-color: var(--background-dark);
 }
 
 .tab:active {
-    background-color: #404040;
+    background-color: var(--background-light);
 }
 
 .type-ico {
