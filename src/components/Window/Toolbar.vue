@@ -9,6 +9,12 @@
                 <!-- Settings Button -->
                 <Button icon="settings" stroke="2px" height="16px" @onclick="$emit('openSettings')" class="btn-left" />
 
+                <!-- Open Folder Button -->
+                <Button icon="folder" stroke="2px" height="16px" @onclick="$emit('openFolder')" class="btn-left" />
+
+                <!-- Open File Button -->
+                <Button icon="file" stroke="2px" height="16px" @onclick="$emit('openFile')" class="btn-left" />
+
             </div>
 
             <!-- Right Side -->

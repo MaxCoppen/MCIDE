@@ -2,7 +2,6 @@
 
     <div class="code-box flex-grow-1">
         <div class="d-flex flex-column w-100 h-100">
-            <toolbar :filename="filename" @openFile="openFile()" @saveFile="saveFile()" />
             <monaco ref="editor" @onUpdate="onUpdate" @openFile="openFile()" @saveFile="saveFile()" />
         </div>
     </div>
@@ -13,11 +12,20 @@
 const { remote } = require('electron')
 const fs = require("fs")
 
-import toolbar from '../FileSystem/CodeToolbar'
 import monaco from './Monaco/MonacoEditor'
 
 export default {
-    components: { toolbar, monaco },
+    components: { monaco },
+
+    props: {
+        content: String
+    },
+
+    watch: {
+        content() {
+            this.$refs.editor.setContent(this.content)
+        }
+    },
 
     data() {
         return {
@@ -58,8 +66,11 @@ export default {
 <style>
 
 .code-box {
-    background-color: #333333;
+    background-color: var(--background); /* #333333 */
     color: #7F7F7F;
+
+    width: 100%;
+    height: 100%;
 }
 
 </style>

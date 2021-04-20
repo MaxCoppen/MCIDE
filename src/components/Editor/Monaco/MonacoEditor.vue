@@ -83,6 +83,8 @@ export default {
   max-width: 100vw !important;
   width: 100% !important;
   margin: 0 !important;
+  padding: 0 !important;
+  padding-bottom: 20px !important;
 }
 
 </style>

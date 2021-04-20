@@ -76,7 +76,7 @@ export default {
 .title-bar {
     user-select: none;
     -webkit-user-select: none;
-    background-color: #222222;
+    background-color: var(--background-dark);
     width: 100%;
     height: 30px;
 }

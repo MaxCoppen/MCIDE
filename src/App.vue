@@ -7,18 +7,26 @@
       <titlebar @minWindow="minimize()" @maxWindow="maximize()" @closeWindow="close()" @iconUpdate="iconUpdate()" />
 
       <!-- Window Toolbar -->
-      <toolbar @openSettings="debug('open settings')" @commentLine="debug('comment line')" @uncommentLine="debug('uncomment line')" />
+      <toolbar 
+        @openSettings="debug('open settings')" 
+        @openFile="openFile()" @openFolder="openFolder()" 
+        @commentLine="debug('comment line')" 
+        @uncommentLine="debug('uncomment line')" 
+        />
 
       <!-- Window Body -->
       <div class="d-flex flex-grow-1 flex-row w-100">
 
         <direxplorer @iconUpdate="iconUpdate()" />
-        <codebox @fileLoaded="fileLoaded" @onUpdate="fileUpdate" />
+        <div class="d-flex flex-grow-1 flex-column">
+          <filetabs :files="files" />
+          <codebox @fileLoaded="fileLoaded" @onUpdate="fileUpdate" :content="file" />
+        </div>
 
       </div>
 
       <!-- Window Footer -->
-      <winfooter :files="128" :projectLength="3216" :fileLength="fileLength" :filePath="filePath" codeLanguage="C" editorVersion="1.0.1" />
+      <winfooter :files="0" :projectLength="0" :fileLength="fileLength" :filePath="filePath" codeLanguage="C" editorVersion="1.0.1" />
 
     </div>
   </div>
@@ -29,13 +37,16 @@
 // Electron remote:
 import { remote } from 'electron'
 var window = remote.getCurrentWindow()
+const fs = require("fs")
+import readDir from './js/input-output'
 
 // Custom vue components:
 import titlebar from './components/Window/Titlebar'
 import toolbar from './components/Window/Toolbar'
 
+import filetabs from './components/Editor/Tabs/Tabs'
 import codebox from './components/Editor/CodeBox'
-import direxplorer from './components/FileSystem/DirExplorer'
+import direxplorer from './components/Editor/DirExplorer'
 
 import winfooter from './components/Window/Footer'
 
@@ -45,17 +56,22 @@ import feather from 'feather-icons'
 export default {
   name: 'App',
 
-  components: { titlebar, toolbar, codebox, direxplorer, winfooter },
+  components: { titlebar, toolbar, filetabs, codebox, direxplorer, winfooter },
 
   data() {
     return {
       filePath: 'C:/',
-      fileLength: 0
+      fileLength: 0,
+      files: [],
+      file: ''
     }
   },
 
   mounted() {
-    feather.replace()
+    this.files.push({ name: 'c_file', path: 'C:/System/file', type: 'c' })
+    this.files.push({ name: 'js_file', path: 'D:/System/file', type: 'js' })
+
+    this.iconUpdate()
   },
 
   methods: {
@@ -84,6 +100,62 @@ export default {
       setTimeout(() => { feather.replace(); }, 10);
     },
 
+    openFile() {
+      remote.dialog.showOpenDialog({ 
+          properties: ['openFile']
+      })
+      .then(result => {
+          if (result.canceled == false) {
+              // Save the file and filepath:
+              this.filepath = result.filePaths[0]
+              this.file = fs.readFileSync(result.filePaths[0], 'utf8');
+
+              // Save the file name:
+              this.filename = result.filePaths[0].split('\\')[result.filePaths[0].split('\\').length - 1]
+              this.$emit('fileLoaded', result.filePaths[0])
+
+              // Add the file to the tabs list.
+              this.files.push({ name: this.filename, path: result.filePaths[0], type: 'c' })
+          }
+      })
+    },
+
+    saveFile() {
+      fs.writeFileSync(this.filepath, this.$refs.editor.getValue())
+      console.log('saved ' + this.filename + ' succesfully')
+    },
+
+    // Open a folder.
+    openFolder() {
+      remote.dialog.showOpenDialog({ 
+        properties: ['openDirectory']
+      })
+      .then(result => {
+        if (result.canceled == false) {
+          this.dirName = result.filePaths[0].split('\\')[result.filePaths[0].split('\\').length - 1]
+
+          this.dirTree.clear()
+
+          var files = readDir(result.filePaths[0], [])
+          files.forEach(file => this.dirTree.add(file));
+
+          var obj = {}
+          files.forEach(function(path) {
+            path.split('\\').reduce(function(r, e) {
+              return r[e] || (r[e] = {})
+            }, obj)
+          })
+
+          this.dirObjects.clear()
+          obj.forEach(o => this.dirObjects.add(o))
+
+          console.log(this.dirObjects)
+
+          this.$emit('iconUpdate')
+        }
+      })
+    },
+
     // Called when a new file is loaded.
     fileLoaded(path) {
       this.filePath = path
@@ -105,13 +177,10 @@ export default {
 <style>
 
 #app {
-  font-family: 'Poppins', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   overflow: hidden;
   text-align: center;
-  color: #D9D9D9;
-  background-color: #404040;
+  color: var(--text-light); /* dark: D9D9D9 */
+  background-color: var(--background-light); /* dark: 404040 */
 }
 
 </style>
