@@ -37,19 +37,17 @@ button {
     width: 30px; 
     height: 100%;
     position: relative;
-    transition: all 0.2s;
+    transition: background-color 0.2s, color 0.2s;
 }
 
 button:hover {
     background-color: var(--background-light);
     color: var(--text-dark);
-    transition: all 0.2s;
 }
 
 button:active {
     background-color: var(--background-darker);
     color: var(--text-light);
-    transition: all 0.2s;
 }
 
 .ico {

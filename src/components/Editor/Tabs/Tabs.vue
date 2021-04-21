@@ -1,6 +1,9 @@
 <template>
 <div class="tabs d-flex flex-row">
-    <file-tab v-for="file in files" :key="file" :filedata="file" />
+    <file-tab 
+        v-for="file in files" :key="file" :filedata="file" 
+        @focusFile="focusFile" @closeFile="closeFile"
+        />
 </div>
 </template>
 
@@ -12,6 +15,16 @@ export default {
 
     props: {
         files: [Object]
+    },
+
+    methods: {
+        focusFile(filedata) {
+            this.$emit('focusFile', filedata)
+        },
+
+        closeFile(filedata) {
+            this.$emit('closeFile', filedata)
+        }
     }
 }
 </script>

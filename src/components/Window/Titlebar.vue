@@ -1,3 +1,39 @@
+<template>
+
+<div class="title-bar">
+    <div class="d-flex align-items-start flex-row h-100">
+
+        <!-- Drag Bar -->
+        <div class="dragbar center flex-grow-1">
+            <h6 class="title monospace">
+                MCIDE
+            </h6>
+        </div>
+
+        <!-- Buttons Bar -->
+        <div class="buttons">
+
+            <div class="d-flex align-items-start flex-row w-100 h-100">
+
+                <!-- Minimize Window Button -->
+                <Button icon="minus" stroke="2px" height="16px" @onclick="$emit('minWindow')" />
+
+                <!-- Maximize Window Button -->
+                <Button v-show="maximized" icon="minimize" stroke="3px" height="12px" @onclick="maximize()" />
+                <Button v-show="!maximized" icon="maximize" stroke="3px" height="12px" @onclick="maximize()" />
+
+                <!-- Close Window Button -->
+                <Button icon="x" stroke="2px" height="16px" @onclick="$emit('closeWindow')" class="close-button" />
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+</template>
+
 <script>
 // Electron remote:
 import { remote } from 'electron'
@@ -35,42 +71,6 @@ export default {
 
 </script>
 
-<template>
-
-<div class="title-bar">
-    <div class="d-flex align-items-start flex-row h-100">
-
-        <!-- Drag Bar -->
-        <div class="dragbar center flex-grow-1">
-            <h6 class="title monospace">
-                MCIDE
-            </h6>
-        </div>
-
-        <!-- Buttons Bar -->
-        <div class="buttons">
-
-            <div class="d-flex align-items-start flex-row w-100 h-100">
-
-                <!-- Minimize Window Button -->
-                <Button icon="minus" stroke="2px" height="16px" @onclick="$emit('minWindow')" />
-
-                <!-- Maximize Window Button -->
-                <Button v-show="maximized" icon="minimize" stroke="3px" height="12px" @onclick="maximize()" />
-                <Button v-show="!maximized" icon="maximize" stroke="3px" height="12px" @onclick="maximize()" />
-
-                <!-- Close Window Button -->
-                <Button icon="x" stroke="2px" height="16px" @onclick="$emit('closeWindow')" class="close-button" />
-
-            </div>
-
-        </div>
-
-    </div>
-</div>
-
-</template>
-
 <style scoped>
 
 .title-bar {
@@ -91,12 +91,11 @@ export default {
     text-align: left; 
     line-height: 100%;
     width: 42px;
-    transition: all 0.2s;
+    transition: color 0.2s;
 }
 
 .title:hover {
     color: var(--text-light);
-    transition: all 0.2s;
 }
 
 .dragbar {

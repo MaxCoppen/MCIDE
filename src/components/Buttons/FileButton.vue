@@ -49,19 +49,17 @@ button {
     width: 100%;
     height: 30px;
     padding: 0;
-    transition: all 0.2s;
+    transition: background-color 0.2s, color 0.2s;
 }
 
 button:hover {
     background-color: var(--background);
     color: var(--text);
-    transition: all 0.2s;
 }
 
 button:active {
     background-color: var(--background-dark);
     color: var(--text-light);
-    transition: all 0.2s;
 }
 
 .directory-name {

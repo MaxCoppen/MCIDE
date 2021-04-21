@@ -1,14 +1,38 @@
 <template>
-    <button class="tab d-flex justify-content-start flex-row">
-        <img class="type-ico" src="../../../assets/icons/file-icons/js.svg">
+
+<div class="d-flex flex-row" :class="{ tab: !filedata.open, 'tab-open': filedata.open }">
+
+    <button class="focus-btn d-flex justify-content-start flex-row" @click="focus()">
+        <img class="type-ico" :src=iconurl>
         <p>{{filedata.name}}.{{filedata.type}}</p>
     </button>
+
+    <button class="close-btn d-flex justify-content-center" @click="close()">
+        <i class="close-ico" data-feather="x"></i>
+    </button>
+
+</div>
+
 </template>
 
 <script>
 export default {
     props: {
         filedata: Object
+    },
+
+    data() {
+        return { iconurl: './file-icons/' + this.filedata.type + '.png' }
+    },
+
+    methods: {
+        focus() {
+            this.$emit('focusFile', this.filedata)
+        },
+
+        close() {
+            this.$emit('closeFile', this.filedata)
+        }
     }
 }
 </script>
@@ -19,18 +43,20 @@ export default {
     background-color: var(--background);
     color: var(--text-dark);
 
+    position: relative;
+
     box-shadow: none !important; 
     outline: 0 !important;
     border: none;
 
     padding: 0;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 7.5px;
+    padding-right: 5px;
 
     width: fit-content;
     height: 100%;
 
-    transition: all 0.2s;
+    transition: background-color 0.2s;
 }
 
 .tab:hover {
@@ -41,13 +67,103 @@ export default {
     background-color: var(--background-light);
 }
 
+.tab-open {
+    background-color: var(--background-dark);
+    color: var(--text-dark);
+
+    position: relative;
+
+    box-shadow: none !important; 
+    outline: 0 !important;
+    border: none;
+
+    padding: 0;
+    padding-left: 7.5px;
+    padding-right: 5px;
+
+    width: fit-content;
+    height: 100%;
+
+    transition: background-color 0.2s;
+}
+
+.tab-open:hover {
+    background-color: var(--background-dark);
+}
+
+.tab-open:active {
+    background-color: var(--background-light);
+}
+
 .type-ico {
     margin: auto;
     margin-left: 5px;
     margin-right: 5px;
+    margin-top: 7.5px;
 
     width: auto;
-    height: 14px;
+    height: 15px;
+}
+
+.focus-btn {
+    color: var(--text);
+    background: none;
+    border: none;
+
+    width: fit-content;
+    height: 100%;
+    padding: 0;
+
+    transition: color 0.2s;
+}
+
+.focus-btn:hover {
+    color: var(--text-light);
+}
+
+.focus-btn:active {
+    color: var(--text-dark);
+}
+
+.close-btn {
+    color: var(--text-dark);
+    background: none;
+    border: none;
+
+    width: 20px;
+    height: 100%;
+    padding: 0;
+
+    opacity: 0;
+
+    transition: opacity 0.2s, color 0.2s;
+}
+
+.tab:hover .close-btn {
+    opacity: 1;
+}
+
+.tab-open .close-btn {
+    opacity: 1;
+}
+
+.close-btn:hover {
+    color: var(--text-light);
+}
+
+.close-btn:active {
+    color: var(--text-darker);
+}
+
+.close-ico {
+    color: inherit;
+
+    width: auto;
+    height: 18px;
+    stroke-width: 2px;
+
+    margin: auto;
+    margin-top: 7.5px;
 }
 
 p {

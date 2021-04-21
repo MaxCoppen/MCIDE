@@ -57,9 +57,15 @@ export default {
 
   methods: {
     setContent(content) {
-      this.open = true
-      this.editor.getModel().setValue(content)
-      this.$emit('onUpdate', this.editor.getModel().getLineCount())
+      if (content != '') {
+        this.open = true
+        this.editor.getModel().setValue(content)
+        this.$emit('onUpdate', this.editor.getModel().getLineCount())
+      } else {
+        this.open = false
+        this.editor.getModel().setValue('')
+        this.$emit('onUpdate', 0)
+      }
     },
 
     getValue() {
