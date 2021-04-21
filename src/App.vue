@@ -10,8 +10,8 @@
       <toolbar 
         @openSettings="themeSwitch()" 
         @openFile="openFile()" @openFolder="openFolder()" 
-        @commentLine="debug('comment line')" 
-        @uncommentLine="debug('uncomment line')" 
+        @commentLine="$refs.editor.$refs.editor.commentSelection()" 
+        @uncommentLine="$refs.editor.$refs.editor.uncommentSelection()" 
         />
 
       <!-- Window Body -->
@@ -20,7 +20,15 @@
         <direxplorer @iconUpdate="iconUpdate()" />
         <div class="d-flex flex-grow-1 flex-column">
           <filetabs :files="files" @focusFile="focusFile" @closeFile="closeFile" />
-          <codebox @fileLoaded="fileLoaded" @onUpdate="fileUpdate" :content="file" />
+          <codebox ref="editor" 
+            @fileLoaded="fileLoaded" 
+            @onUpdate="fileUpdate" 
+            @openFile="openFile()"
+            @saveFile="saveFile()"
+            :content="file" 
+            :filelang="fileType.toLowerCase()"
+            :editorTheme="theme"
+            />
         </div>
 
       </div>
@@ -40,7 +48,8 @@ var window = remote.getCurrentWindow()
 const fs = require("fs")
 
 // Custom js files:
-import readDir from './js/input-output'
+//import * as editorIO from './js/input-output'
+const editorIO = require('./js/input-output')
 import editorTheme from "./js/editor-theme";
 
 // Custom vue components:
@@ -64,12 +73,13 @@ export default {
   data() {
     return {
       themeManager: null,
+      theme: 'dark',
 
       fileType: '-',
       filePath: '-',
       fileLength: 0,
       files: [],
-      file: ''
+      file: null
     }
   },
 
@@ -107,6 +117,10 @@ export default {
     // Switch the editor theme.
     themeSwitch() {
       this.themeManager.darkThemeSwitch();
+      if (this.theme == 'dark')
+        this.theme = 'light'
+      else
+        this.theme = 'dark'
     },
 
     // Update the icons.
@@ -116,32 +130,21 @@ export default {
 
     // Open a file dialogue.
     openFile() {
-      remote.dialog.showOpenDialog({ 
-          properties: ['openFile']
-      })
-      .then(result => {
-          if (result.canceled == false) {
-              // Save the file and filepath:
-              this.filePath = result.filePaths[0]
-              this.file = fs.readFileSync(result.filePaths[0], 'utf8');
-
-              // Save the file name:
-              const filename = result.filePaths[0].split('\\')[result.filePaths[0].split('\\').length - 1]
-
-              // Add the file to the tabs list:
-              const _filename = filename.split('.').slice(0, -1).join('.')
-              const _extension = filename.split('.')[filename.split('.').length - 1].toLowerCase()
-              this.files.push({ name: _filename, path: this.filePath, type: _extension, open: false })
-              this.focusFile(this.files[this.files.length - 1])
-              this.iconUpdate()
-          }
+      editorIO.default.readFile().then(result => {
+        if (result) {
+          this.filePath = result.filepath
+          this.file = result.filecontent
+          this.files.push({ name: result.filename, path: result.filepath, type: result.extension, open: false, changed: false })
+          this.focusFile(this.files[this.files.length - 1])
+          this.iconUpdate()
+        }
       })
     },
 
     // Save the open file.
     saveFile() {
-      //fs.writeFileSync(this.filepath, this.$refs.editor.getValue())
-      //console.log('saved ' + this.fileName + ' succesfully')
+      fs.writeFileSync(this.filePath, this.$refs.editor.$refs.editor.getValue())
+      this.fileUpdate(this.$refs.editor.$refs.editor.getModel())
     },
 
     // Open a folder.
@@ -155,7 +158,7 @@ export default {
 
           this.dirTree.clear()
 
-          var files = readDir(result.filePaths[0], [])
+          var files = editorIO.default.readDir(result.filePaths[0], [])
           files.forEach(file => this.dirTree.add(file));
 
           var obj = {}
@@ -181,8 +184,20 @@ export default {
     },
 
     // Called when a file is updated.
-    fileUpdate(length) {
-      this.fileLength = length
+    fileUpdate(model) {
+      if (model) {
+        // Update the line count.
+        this.fileLength = model.getLineCount()
+
+        if (this.files.length > 0) {
+          // If the file has changed:
+          if (model.getValue() != fs.readFileSync(this.filePath, 'utf8')) {
+            this.files.find(f => f.open == true).changed = true
+          } else {
+            this.files.find(f => f.open == true).changed = false
+          }
+        }
+      }
     },
 
     // Set the file type based on the file extension.
@@ -199,6 +214,13 @@ export default {
     focusFile(filedata) {
       var index = this.files.indexOf(filedata);
       if (index !== -1) {
+        // If current file has changes:
+        const currentFile = this.files.find(f => f.open == true)
+        if (currentFile && currentFile.changed) {
+          fs.writeFileSync(currentFile.path, this.$refs.editor.$refs.editor.getValue())
+          currentFile.changed = false
+        }
+
         // Set all files to not be open:
         for (let i = 0; i < this.files.length; i++) {
           this.files[i].open = false
@@ -218,6 +240,11 @@ export default {
     closeFile(filedata) {
       var index = this.files.indexOf(filedata);
       if (index !== -1) {
+        // If file has changes:
+        if (filedata.changed) {
+          fs.writeFileSync(filedata.path, this.$refs.editor.$refs.editor.getValue())
+        }
+
         // Remove the file.
         this.files.splice(index, 1);
 
@@ -230,7 +257,7 @@ export default {
         if (this.files.length == 0) {
           this.filePath = '-'
           this.fileType = '-'
-          this.file = ''
+          this.file = null
         }
       }
     },

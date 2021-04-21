@@ -14,6 +14,11 @@ import './themes';
 import shortcuts from './shortcuts';
 
 export default {
+  props: {
+    filelang: { type: String, default: 'text' },
+    editorTheme: { type: String, default: 'dark' }
+  },
+
   data() {
     return {
       open: false
@@ -25,7 +30,7 @@ export default {
 
     this.editor = monaco.editor.create(el, {
       value: '',
-      language: 'c',
+      language: this.filelang,
       theme: 'mcide-dark',
       fontFamily: 'IBM Plex Mono',
       tabSize: 4,
@@ -50,26 +55,97 @@ export default {
     remote.getCurrentWindow().on('unmaximize', refresh)
 
     this.editor.getModel().onDidChangeContent(() => {
-      this.$emit('onUpdate', this.editor.getModel().getLineCount())
+      this.$emit('onUpdate', this.editor.getModel())
       refresh()
     });
   },
 
+  watch: {
+    filelang() {
+      const languages = {
+        'js': 'javascript',
+        'ts': 'typescript',
+        'html': 'html',
+        'htm': 'html',
+        'txt': 'text',
+        'css': 'css',
+        'c': 'c'
+      }
+
+      const ext = this.filelang.match(/([^.])+$/g)[0];
+
+      monaco.editor.setModelLanguage(this.editor.getModel(), languages[ext])
+    },
+
+    editorTheme() {
+      monaco.editor.setTheme('mcide-' + this.editorTheme);
+    }
+  },
+
   methods: {
     setContent(content) {
-      if (content != '') {
+      if (content != null) {
         this.open = true
         this.editor.getModel().setValue(content)
-        this.$emit('onUpdate', this.editor.getModel().getLineCount())
+        this.$emit('onUpdate', this.editor.getModel())
       } else {
-        this.open = false
-        this.editor.getModel().setValue('')
-        this.$emit('onUpdate', 0)
+        this.hideEditor()
       }
+    },
+
+    hideEditor() {
+      this.open = false
+      this.editor.getModel().setValue('')
+      this.$emit('onUpdate', null)
+    },
+
+    getModel() {
+      return this.editor.getModel()
     },
 
     getValue() {
       return this.editor.getModel().getValue()
+    },
+
+    commentSelection() {
+      // Get the selection and create the range:
+      const selection = this.editor.getSelection()
+      const range = {
+        startLineNumber: selection.startLineNumber, 
+        startColumn: selection.startColumn, 
+        endLineNumber: selection.endLineNumber, 
+        endColumn: selection.endColumn,
+      }
+
+      // Get the selection text and comment it:
+      const codeToComment = this.editor.getModel().getValueInRange(range)
+      this.editor.executeEdits('comment', [
+        {
+          range: range,
+          text: '/*' + codeToComment + '*/',
+        },
+      ])
+    },
+
+    uncommentSelection() {
+      // Get the selection and create the range:
+      const selection = this.editor.getSelection()
+      const range = {
+        startLineNumber: selection.startLineNumber, 
+        startColumn: selection.startColumn, 
+        endLineNumber: selection.endLineNumber, 
+        endColumn: selection.endColumn,
+      }
+
+      // Get the selection text and comment it:
+      const codeToUncomment = this.editor.getModel().getValueInRange(range)
+      const uncommentedCode = codeToUncomment.replace(/\*\//, '').replace(/\/\*/, '')
+      this.editor.executeEdits('comment', [
+        {
+          range: range,
+          text: uncommentedCode,
+        },
+      ])
     }
   }
 };

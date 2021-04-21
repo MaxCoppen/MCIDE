@@ -7,9 +7,17 @@
         <p>{{filedata.name}}.{{filedata.type}}</p>
     </button>
 
-    <button class="close-btn d-flex justify-content-center" @click="close()">
-        <i class="close-ico" data-feather="x"></i>
-    </button>
+    <div v-show="filedata.changed === false" class="close-ico-parent">
+        <button class="close-btn d-flex justify-content-center" @click="close()">
+            <i class="close-ico" data-feather="x"></i>
+        </button>
+    </div>
+
+    <div v-show="filedata.changed === true" class="close-ico-parent">
+        <button class="close-btn d-flex justify-content-center" @click="close()">
+            <i class="changes-ico" data-feather="circle"></i>
+        </button>
+    </div>
 
 </div>
 
@@ -155,20 +163,49 @@ export default {
     color: var(--text-darker);
 }
 
+.close-ico-parent {
+    width: 100%;
+    height: 100%;
+
+    margin: 0;
+}
+
 .close-ico {
     color: inherit;
 
     width: auto;
     height: 18px;
-    stroke-width: 2px;
+    stroke-width: 1.75px;
 
     margin: auto;
-    margin-top: 7.5px;
+    margin-top: 6.5px;
+}
+
+.changes-ico {
+    color: inherit;
+
+    width: auto;
+    height: 12px;
+    stroke-width: 3px;
+
+    margin: auto;
+    margin-top: 9.5px;
+}
+
+.change-indicator {
+    color: var(--text-light);
+
+    width: 5px;
+    margin: 0;
+
+    font-size: 18px;
+    font-weight: 700;
 }
 
 p {
     margin: auto;
     margin-right: 5px;
+    margin-bottom: 4px;
 }
 
 </style>
