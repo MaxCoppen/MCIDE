@@ -17,7 +17,7 @@
       <!-- Window Body -->
       <div class="d-flex flex-grow-1 flex-row w-100">
 
-        <direxplorer @iconUpdate="iconUpdate()" />
+        <!--<direxplorer @iconUpdate="iconUpdate()" />-->
         <div class="d-flex flex-grow-1 flex-column">
           <filetabs :files="files" @focusFile="focusFile" @closeFile="closeFile" />
           <codebox ref="editor" 
@@ -58,7 +58,7 @@ import toolbar from './components/Window/Toolbar'
 
 import filetabs from './components/Editor/Tabs/Tabs'
 import codebox from './components/Editor/CodeBox'
-import direxplorer from './components/Editor/DirExplorer'
+//import direxplorer from './components/Editor/DirExplorer'
 
 import winfooter from './components/Window/Footer'
 
@@ -68,7 +68,7 @@ import feather from 'feather-icons'
 export default {
   name: 'App',
 
-  components: { titlebar, toolbar, filetabs, codebox, direxplorer, winfooter },
+  components: { titlebar, toolbar, filetabs, codebox, /*direxplorer,*/ winfooter },
 
   data() {
     return {

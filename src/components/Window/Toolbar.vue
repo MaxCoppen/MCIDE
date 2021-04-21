@@ -10,7 +10,7 @@
                 <Button icon="settings" stroke="2px" height="16px" @onclick="$emit('openSettings')" class="btn-left" />
 
                 <!-- Open Folder Button -->
-                <Button icon="folder" stroke="2px" height="16px" @onclick="$emit('openFolder')" class="btn-left" />
+                <!--<Button icon="folder" stroke="2px" height="16px" @onclick="$emit('openFolder')" class="btn-left" />-->
 
                 <!-- Open File Button -->
                 <Button icon="file" stroke="2px" height="16px" @onclick="$emit('openFile')" class="btn-left" />
@@ -18,9 +18,9 @@
             </div>
 
             <!-- Right Side -->
-            <div class="tools">
+            <div class="tools" style="width: 100% !important">
 
-                <div class="d-flex flex-row w-100 h-100">
+                <div class="d-flex flex-row w-100 h-100 justify-content-end">
 
                     <!-- Comment Button -->
                     <Button icon="align-right" stroke="2px" height="16px" @onclick="$emit('commentLine')" class="btn-right comment-line" />

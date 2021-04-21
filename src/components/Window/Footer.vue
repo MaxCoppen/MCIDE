@@ -96,8 +96,8 @@ export default {
 }
 
 .dir-info {
-    width: calc(100vw / 4) !important;
-    min-width: 150px;
+    width: fit-content !important;
+    min-width: 75px;
     max-width: 350px;
 }
 
