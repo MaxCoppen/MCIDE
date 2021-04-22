@@ -224,6 +224,7 @@ p {
     margin-right: 5px;
     margin-left: 5px;
     margin-bottom: 4px;
+    margin-top: 2px;
     white-space: nowrap;
 }
 

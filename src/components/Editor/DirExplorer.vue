@@ -30,16 +30,18 @@ export default {
 <style>
 
 .dir-explorer {
-    user-select: none;
-    -webkit-user-select: none;
     background-color: var(--background-dark);
     color: var(--text-dark);
 
     z-index: 2;
 
-    resize: horizontal;
     min-width: clamp(150px, calc(100vw / 4), 350px);
-    height: 100%;
+    max-width: 350px;
+    width: calc(100vw / 4);
+    height: calc(100vh - 80px);
+    overflow: auto;
+    
+    direction: rtl;
     /*width: clamp(150px, calc(100vw / 4), 350px) !important;
     min-width: clamp(150px, calc(100vw / 4), 350px) !important;*/
 }
@@ -51,8 +53,13 @@ export default {
 }
 
 .directories {
-    width: 100%;
-    height: 100%;
+    user-select: none;
+    min-width: clamp(150px, calc(100vw / 4), 350px);
+    width: calc(100vw / 4);
+    height: fit-content;
+    width: fit-content;
+
+    direction: ltr;
 }
 
 .directory-name {
@@ -67,6 +74,10 @@ export default {
     width: 15px;
     margin: auto;
 }
+
+</style>
+
+<style scoped>
 
 /* Scrollbar Styling */
 
@@ -83,6 +94,7 @@ export default {
 ::-webkit-scrollbar-thumb {
     border-radius: 3.5px;
     border: 2px solid var(--background-dark);
+    background-color: transparent;
 	background-color: var(--text-darker);
 }
 

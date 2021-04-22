@@ -39,7 +39,30 @@ export default {
     box-shadow: 0px 5px 10px var(--shadow);
 
     height: 30px;
-    width: 100%;
+    width: calc(100vw - clamp(150px, calc(100vw / 4), 350px));
+
+    overflow: overlay;
+    padding:0;
 }
+
+/* Scrollbar Styling */
+
+::-webkit-scrollbar-track, ::-webkit-scrollbar-corner {
+	background-color: transparent !important;
+}
+
+::-webkit-scrollbar {
+    height: 2px;
+	background-color: transparent !important;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: black !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: gray !important;
+}
+
 
 </style>

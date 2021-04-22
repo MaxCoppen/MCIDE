@@ -1,13 +1,13 @@
 :root {
     --text-light: #777777;
-    --text: #555555;
-    --text-dark: #222222;
-    --text-darker: #111111;
+    --text: #666666;
+    --text-dark: #555555;
+    --text-darker: #444444;
 
     --background-lighter: #eeeeee;
     --background-light: #dddddd;
-    --background: #cccccc;
-    --background-dark: #c0c0c0;
+    --background: #eeeeee;
+    --background-dark: #cccccc;
     --background-darker: #b0b0b0;
     
     --shadow: #22222222;
