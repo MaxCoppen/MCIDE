@@ -36,6 +36,7 @@ export default {
     created() {
         const languages = [
             'js', 'ts',
+            'json',
             'html', 'css',
             'c', 'cs', 'cpp',
             'vue'

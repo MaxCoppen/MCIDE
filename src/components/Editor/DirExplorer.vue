@@ -2,8 +2,7 @@
     
 <div class="dir-explorer">
     <div class="directories">
-        <p>{{dirName}}</p>
-        <tree-view v-if="dirTree" :node="dirTree" @openFile="openFile" />
+        <tree-view v-if="dirTree" :node="dirTree" :depth="0" @openFile="openFile" />
     </div>
 </div>
 
@@ -16,7 +15,6 @@ export default {
     components: { TreeView },
 
     props: {
-        dirName: String,
         dirTree: Object
     },
 
@@ -41,6 +39,7 @@ export default {
 
     resize: horizontal;
     min-width: clamp(150px, calc(100vw / 4), 350px);
+    height: 100%;
     /*width: clamp(150px, calc(100vw / 4), 350px) !important;
     min-width: clamp(150px, calc(100vw / 4), 350px) !important;*/
 }
@@ -54,7 +53,6 @@ export default {
 .directories {
     width: 100%;
     height: 100%;
-    margin-left: -7.5px;
 }
 
 .directory-name {

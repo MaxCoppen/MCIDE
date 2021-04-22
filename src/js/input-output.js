@@ -71,7 +71,7 @@ async function openFolder() {
             var files = readDir(result.filePaths[0], [])
 
             // Turn the files into nodes:
-            var nodes = { name: dirname, path: fullpath, nodes: [] }
+            var nodes = { name: dirname, type: 'base-folder', path: fullpath, nodes: [] }
             files.forEach(path => {
                 // Split the path into tokens.
                 const tokens = path.split('\\')
@@ -84,11 +84,24 @@ async function openFolder() {
                     // Loop over each token and add the object if it doesn't exist:
                     for (let i = 1; i < tokens.length; i++) {
                         currentPath += '\\' + tokens[i]
-                        if (!node.nodes.some(n => n.name == tokens[i]))
-                            node.nodes.push({ name: tokens[i], path: currentPath, nodes: [] })
+                        // If node doesn't exist:
+                        if (!node.nodes.some(n => n.name == tokens[i])) {
+                            // Get all the data to push:
+                            const nodename = tokens[i]
+                            var nodetype;
+                            if (nodename.includes('.'))
+                                nodetype = tokens[i].split('.')[tokens[i].split('.').length - 1]
+                            else
+                                nodetype = 'folder'
+
+                            // Push all the data as a new node.
+                            node.nodes.push({ name: nodename, type: nodetype, path: currentPath, nodes: [] })
+                        }
+                        // Move deeper into the node tree.
                         node = node.nodes.find(n => n.name == tokens[i])
                     }
                 } else {
+                    // Empty branch.
                     nodes[tokens[0]] = { name: tokens[0], path: tokens[0], nodes: [] }
                 }
             })

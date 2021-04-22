@@ -155,6 +155,7 @@ export default {
         if (result) {
           console.log(result.nodes)
           this.dirTree = result.nodes
+          this.iconUpdate()
         }
       })
     },
