@@ -14,7 +14,7 @@ const readDir = function(dirPath, arrayOfFiles) {
         // If folder then look inside of it.
         if (fs.statSync(dirPath + "/" + file).isDirectory()) {
             // Push this folder and add a '/'.
-            arrayOfFiles.push(path.join(dirPath.split('\\')[dirPath.split('\\').length - 1], "/", file + '/'))
+            arrayOfFiles.push(path.join(dirPath.split('\\')[dirPath.split('\\').length - 1], "/", file))
 
             arrayOfFiles = readDir(dirPath + "/" + file, arrayOfFiles)
         } else {
@@ -27,7 +27,7 @@ const readDir = function(dirPath, arrayOfFiles) {
 }
 
 // Read a file.
-async function readFile() {
+async function openFile() {
     var readResult;
 
     await remote.dialog.showOpenDialog({ 
@@ -54,7 +54,55 @@ async function readFile() {
     return readResult
 }
 
+// Open a folder
+async function openFolder() {
+    var readResult;
+
+    await remote.dialog.showOpenDialog({ 
+        properties: ['openDirectory']
+    })
+    .then(result => {
+        if (result.canceled == false) {
+            // Get the name of the directory.
+            const fullpath = result.filePaths[0]
+            const dirname = fullpath.split('\\')[fullpath.split('\\').length - 1]
+
+            // Get all the files in the directory.
+            var files = readDir(result.filePaths[0], [])
+
+            // Turn the files into nodes:
+            var nodes = { name: dirname, path: fullpath, nodes: [] }
+            files.forEach(path => {
+                // Split the path into tokens.
+                const tokens = path.split('\\')
+
+                // If the path is longer then one token:
+                if (tokens.length > 1) {
+                    // Setup the home node and current path:
+                    var node = nodes
+                    var currentPath = fullpath
+                    // Loop over each token and add the object if it doesn't exist:
+                    for (let i = 1; i < tokens.length; i++) {
+                        currentPath += '\\' + tokens[i]
+                        if (!node.nodes.some(n => n.name == tokens[i]))
+                            node.nodes.push({ name: tokens[i], path: currentPath, nodes: [] })
+                        node = node.nodes.find(n => n.name == tokens[i])
+                    }
+                } else {
+                    nodes[tokens[0]] = { name: tokens[0], path: tokens[0], nodes: [] }
+                }
+            })
+
+            // Save the results of the read.
+            readResult = { dirname, files, nodes }
+        }
+    })
+
+    return readResult
+}
+
 export default { 
     readDir, 
-    readFile 
+    openFile,
+    openFolder
 }

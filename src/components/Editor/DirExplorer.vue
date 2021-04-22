@@ -2,20 +2,27 @@
     
 <div class="dir-explorer">
     <div class="directories">
-        
+        <p>{{dirName}}</p>
+        <tree-view v-if="dirTree" :node="dirTree" @openFile="openFile" />
     </div>
 </div>
 
 </template>
 
 <script>
+import TreeView from './Files/File'
 
 export default {
-    data() {
-        return {
-            dirName: '-',
-            dirTree: new Set([]),
-            dirObjects: new Set([])
+    components: { TreeView },
+
+    props: {
+        dirName: String,
+        dirTree: Object
+    },
+
+    methods: {
+        openFile(path) {
+            this.$emit('openFile', path)
         }
     }
 }

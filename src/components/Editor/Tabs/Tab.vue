@@ -43,8 +43,6 @@ export default {
 
         const ext = languages.includes(this.filedata.type);
 
-        console.log(ext + ' : ' + this.filedata.type)
-
         if (ext)
             this.iconurl = './file-icons/' + this.filedata.type + '.png'
         else

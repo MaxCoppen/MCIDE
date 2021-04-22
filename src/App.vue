@@ -17,7 +17,7 @@
       <!-- Window Body -->
       <div class="d-flex flex-grow-1 flex-row w-100">
 
-        <direxplorer @iconUpdate="iconUpdate()" />
+        <direxplorer @iconUpdate="iconUpdate()" :dirTree="dirTree" @openFile="loadFile" />
         <div class="d-flex flex-grow-1 flex-column">
           <filetabs :files="files" @focusFile="focusFile" @closeFile="closeFile" />
           <codebox ref="editor" 
@@ -79,7 +79,9 @@ export default {
       filePath: '-',
       fileLength: 0,
       files: [],
-      file: null
+      file: null,
+
+      dirTree: null
     }
   },
 
@@ -130,7 +132,7 @@ export default {
 
     // Open a file dialogue.
     openFile() {
-      editorIO.default.readFile().then(result => {
+      editorIO.default.openFile().then(result => {
         if (result) {
           this.filePath = result.filepath
           this.file = result.filecontent
@@ -149,31 +151,10 @@ export default {
 
     // Open a folder.
     openFolder() {
-      remote.dialog.showOpenDialog({ 
-        properties: ['openDirectory']
-      })
-      .then(result => {
-        if (result.canceled == false) {
-          this.dirName = result.filePaths[0].split('\\')[result.filePaths[0].split('\\').length - 1]
-
-          this.dirTree.clear()
-
-          var files = editorIO.default.readDir(result.filePaths[0], [])
-          files.forEach(file => this.dirTree.add(file));
-
-          var obj = {}
-          files.forEach(function(path) {
-            path.split('\\').reduce(function(r, e) {
-              return r[e] || (r[e] = {})
-            }, obj)
-          })
-
-          this.dirObjects.clear()
-          obj.forEach(o => this.dirObjects.add(o))
-
-          console.log(this.dirObjects)
-
-          this.$emit('iconUpdate')
+      editorIO.default.openFolder().then(result => {
+        if (result) {
+          console.log(result.nodes)
+          this.dirTree = result.nodes
         }
       })
     },
@@ -211,6 +192,23 @@ export default {
         this.fileType = 'C++'
       else
         this.fileType = extension.toUpperCase()
+    },
+
+    // Load a file from given path.
+    loadFile(path) {
+      this.filePath = path
+      this.file = fs.readFileSync(path, 'utf8')
+
+      // Get the full filename.
+      const fullname = path.split('\\')[path.split('\\').length - 1]
+
+      // Get the filename and extension seperate:
+      const filename = fullname.split('.').slice(0, -1).join('.')
+      const extension = fullname.split('.')[fullname.split('.').length - 1].toLowerCase()
+
+      this.files.push({ name: filename, path: path, type: extension, open: false, changed: false })
+      this.focusFile(this.files[this.files.length - 1])
+      this.iconUpdate()
     },
 
     // Focus an already open file.

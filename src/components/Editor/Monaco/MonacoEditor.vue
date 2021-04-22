@@ -69,9 +69,11 @@ export default {
         'htm': 'html',
         'txt': 'text',
         'css': 'css',
-        'c': 'c'
+        'c': 'c',
+        'c++': 'cpp',
+        'c#': 'csharp'
       }
-
+      
       const ext = this.filelang.match(/([^.])+$/g)[0];
 
       monaco.editor.setModelLanguage(this.editor.getModel(), languages[ext])
