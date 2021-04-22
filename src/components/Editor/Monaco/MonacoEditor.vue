@@ -119,10 +119,19 @@ export default {
 
       // Get the selection text and comment it:
       const codeToComment = this.editor.getModel().getValueInRange(range)
+
+      // Get the commented code:
+      var commentedCode;
+      if (this.filelang == 'html' || this.filelang == 'htm')
+        commentedCode = '<!--' + codeToComment + '-->'
+      else
+        commentedCode = '/*' + codeToComment + '*/'
+
+      // Execute the edits:
       this.editor.executeEdits('comment', [
         {
           range: range,
-          text: '/*' + codeToComment + '*/',
+          text: commentedCode,
         },
       ])
     },
@@ -139,7 +148,14 @@ export default {
 
       // Get the selection text and comment it:
       const codeToUncomment = this.editor.getModel().getValueInRange(range)
-      const uncommentedCode = codeToUncomment.replace(/\*\//, '').replace(/\/\*/, '')
+
+      // Get the uncommented code:
+      var uncommentedCode;
+      if (this.filelang == 'html' || this.filelang == 'htm')
+        uncommentedCode = codeToUncomment.replace(/<!--/, '').replace(/-->/, '')
+      else
+        uncommentedCode = codeToUncomment.replace(/\*\//, '').replace(/\/\*/, '')
+
       this.editor.executeEdits('comment', [
         {
           range: range,

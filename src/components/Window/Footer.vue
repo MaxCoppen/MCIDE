@@ -21,7 +21,7 @@
             <p class="txt monospace"> {{fileLength}} </p>
 
             <i class="ico" data-feather="at-sign"></i>
-            <p class="txt monospace"> {{filePath}} </p>
+            <p class="txt monospace"> {{shortFilePath}} </p>
 
         </div>
 
@@ -42,6 +42,9 @@
 </template>
 
 <script>
+// Electron remote:
+const remote = require('@electron/remote')
+var window = remote.getCurrentWindow()
 
 export default {
     props: {
@@ -72,6 +75,55 @@ export default {
             default: '1.0.0'
         },
     },
+
+    data() {
+        return {
+            shortFilePath: '-'
+        }
+    },
+
+    mounted() {
+        window.on('resize', () => { this.updateFilePath() })
+    },
+
+    methods: {
+        updateFilePath() {
+            const maxLength = (window.getSize()[0] - 400) / 10
+            // Get the tokens.
+            var tokens = this.filePath.split("\\")
+            const totalLength = tokens.length
+            // Take out the drive and filename:
+            const drive = tokens[0]
+            const filename = tokens[tokens.length - 1]
+            // Splice out the drive and filename:
+            tokens.splice(0, 1)
+            tokens.splice(tokens.length - 1, 1)
+            // Take remaining tokens:
+            var currentLength = drive.length + filename.length
+            var remainingTokens = []
+            while(currentLength < maxLength && tokens.length > 0) {
+                remainingTokens.push(tokens[0])
+                currentLength += tokens[0].length
+                tokens.splice(0, 1)
+            }
+            // Generate the path:
+            var path;
+            if (remainingTokens.length < totalLength - 2 && remainingTokens.length > 0)
+                path = drive + '\\...\\' + remainingTokens.join('\\') + '\\' + filename
+            else if (remainingTokens.length == 0)
+                path = filename
+            else
+                path = drive + '\\' + remainingTokens.join('\\') + '\\' + filename
+            // Save the path.
+            this.shortFilePath = path
+        }
+    },
+
+    watch: {
+        filePath() {
+            this.updateFilePath()
+        }
+    }
 }
 
 </script>
@@ -96,8 +148,8 @@ export default {
 }
 
 .dir-info {
-    width: fit-content !important;
-    min-width: 75px;
+    width: calc(100vw / 4) !important;
+    min-width: 150px;
     max-width: 350px;
 }
 
@@ -112,6 +164,7 @@ export default {
     color: var(--text-dark);
     font-weight: 600;
     font-size: 12px;
+    white-space: nowrap;
 
     padding-right: 5px;
     margin-top: 0.5px;

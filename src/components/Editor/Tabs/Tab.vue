@@ -30,7 +30,25 @@ export default {
     },
 
     data() {
-        return { iconurl: './file-icons/' + this.filedata.type + '.png' }
+        return { iconurl: '' }
+    },
+
+    created() {
+        const languages = [
+            'js', 'ts',
+            'html', 'css',
+            'c', 'cs', 'cpp',
+            'vue'
+        ]
+
+        const ext = languages.includes(this.filedata.type);
+
+        console.log(ext + ' : ' + this.filedata.type)
+
+        if (ext)
+            this.iconurl = './file-icons/' + this.filedata.type + '.png'
+        else
+            this.iconurl = './file-icons/txt.png'
     },
 
     methods: {
