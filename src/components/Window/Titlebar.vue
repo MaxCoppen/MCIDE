@@ -36,7 +36,7 @@
 
 <script>
 // Electron remote:
-import { remote } from 'electron'
+const remote = require('@electron/remote')
 var window = remote.getCurrentWindow()
 
 import Button from '../Buttons/WindowButton'

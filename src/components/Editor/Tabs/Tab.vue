@@ -205,7 +205,9 @@ export default {
 p {
     margin: auto;
     margin-right: 5px;
+    margin-left: 5px;
     margin-bottom: 4px;
+    white-space: nowrap;
 }
 
 </style>

@@ -7,7 +7,7 @@
 </template>
 
 <script>
-const { remote } = require('electron')
+const remote = require('@electron/remote')
 import * as monaco from 'monaco-editor';
 
 import './themes';

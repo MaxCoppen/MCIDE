@@ -1,7 +1,7 @@
 const fs = require("fs")
 const path = require("path")
 
-import { remote } from 'electron'
+const remote = require('@electron/remote')
 
 // Read a directory.
 const readDir = function(dirPath, arrayOfFiles) {
