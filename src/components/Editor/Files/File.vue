@@ -118,6 +118,7 @@ export default {
 }
 
 .node-info {
+    position: relative;
     background-color: var(--background-dark);
     color: var(--text-darker);
 }

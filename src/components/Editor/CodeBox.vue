@@ -17,12 +17,15 @@ export default {
     props: {
         filelang: { type: String, default: 'text' },
         editorTheme: { type: String, default: 'dark' },
-        content: String
+        file: Object
     },
 
     watch: {
-        content() {
-            this.$refs.editor.setContent(this.content)
+        file() {
+            if (this.file)
+                this.$refs.editor.setContent(this.file.content)
+            else
+                this.$refs.editor.hideEditor()
         }
     },
 
@@ -34,8 +37,8 @@ export default {
     },
 
     methods: {
-        onUpdate(length) {
-            this.$emit('onUpdate', length)
+        onUpdate(model) {
+            this.$emit('onUpdate', model)
         }
     }
 }

@@ -52,16 +52,17 @@ export default {
 }
 
 ::-webkit-scrollbar {
-    height: 2px;
+    height: 4px;
 	background-color: transparent !important;
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: black !important;
+    border-radius: 5px;
+    background-color: var(--background-dark) !important;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background-color: gray !important;
+    background-color: var(--background-lighter) !important;
 }
 
 

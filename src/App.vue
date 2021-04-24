@@ -25,7 +25,7 @@
             @onUpdate="fileUpdate" 
             @openFile="openFile()"
             @saveFile="saveFile()"
-            :content="file" 
+            :file="file"
             :filelang="fileType.toLowerCase()"
             :editorTheme="theme"
             />
@@ -135,8 +135,7 @@ export default {
       editorIO.default.openFile().then(result => {
         if (result) {
           this.filePath = result.filepath
-          this.file = result.filecontent
-          this.files.push({ name: result.filename, path: result.filepath, type: result.extension, open: false, changed: false })
+          this.files.push({ name: result.filename, path: result.filepath, content: result.filecontent, type: result.extension, open: false, changed: false })
           this.focusFile(this.files[this.files.length - 1])
           this.iconUpdate()
         }
@@ -168,20 +167,22 @@ export default {
     // Called when a file is updated.
     fileUpdate(model) {
       if (model) {
-        // Update the line count.
-        if (this.file)
+        if (this.file) {
+          // Update the line count.
           this.fileLength = model.getLineCount()
-        else
-          this.fileLength = 0
 
-        if (this.files.length > 0) {
+          // Update the file content.
+          this.file.content = model.getValue()
+        
           // If the file has changed:
-          if (model.getValue() != fs.readFileSync(this.filePath, 'utf8')) {
+          if (this.file.content != fs.readFileSync(this.filePath, 'utf8')) {
             this.files.find(f => f.open == true).changed = true
           } else {
             this.files.find(f => f.open == true).changed = false
           }
         }
+        else
+          this.fileLength = 0
       }
     },
 
@@ -198,7 +199,7 @@ export default {
     // Load a file from given path.
     loadFile(path) {
       this.filePath = path
-      this.file = fs.readFileSync(path, 'utf8')
+      const content = fs.readFileSync(path, 'utf8')
 
       // Get the full filename.
       const fullname = path.split('\\')[path.split('\\').length - 1]
@@ -207,7 +208,7 @@ export default {
       const filename = fullname.split('.').slice(0, -1).join('.')
       const extension = fullname.split('.')[fullname.split('.').length - 1].toLowerCase()
 
-      this.files.push({ name: filename, path: path, type: extension, open: false, changed: false })
+      this.files.push({ name: filename, path: path, content: content, type: extension, open: false, changed: false })
       this.focusFile(this.files[this.files.length - 1])
       this.iconUpdate()
     },
@@ -216,12 +217,12 @@ export default {
     focusFile(filedata) {
       var index = this.files.indexOf(filedata);
       if (index !== -1) {
-        // If current file has changes:
+        /* If current file has changes:
         const currentFile = this.files.find(f => f.open == true)
         if (currentFile && currentFile.changed) {
           fs.writeFileSync(currentFile.path, this.$refs.editor.$refs.editor.getValue())
           currentFile.changed = false
-        }
+        }*/
 
         // Set all files to not be open:
         for (let i = 0; i < this.files.length; i++) {
@@ -232,9 +233,11 @@ export default {
         this.files[index].open = true
 
         // Change the currently open file content.
-        this.file = fs.readFileSync(filedata.path, 'utf8')
+        this.file = this.files[index]
         this.filePath = filedata.path
         this.setFileType(filedata.type)
+
+        console.log(this.file)
       }
     },
 
@@ -244,7 +247,7 @@ export default {
       if (index !== -1) {
         // If file has changes:
         if (filedata.changed) {
-          fs.writeFileSync(filedata.path, this.$refs.editor.$refs.editor.getValue())
+          fs.writeFileSync(filedata.path, filedata.content)
         }
 
         // Remove the file.

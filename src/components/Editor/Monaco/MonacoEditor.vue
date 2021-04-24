@@ -88,7 +88,9 @@ export default {
 
   methods: {
     setContent(content) {
+      console.log(content)
       if (content != null) {
+        
         this.open = true
         this.editor.getModel().setValue(content)
         this.$emit('onUpdate', this.editor.getModel())

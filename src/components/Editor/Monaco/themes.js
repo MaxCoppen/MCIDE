@@ -7,7 +7,7 @@ monaco.editor.defineTheme('mcide-dark', {
     inherit: true,
     rules: [{ background: '#333333', foreground: '#888888' }],
     colors: {
-        'editor.foreground': '#00000000',
+        'editor.foreground': '#999999',
         'editor.background': '#00000000',
     }
 });
@@ -17,7 +17,7 @@ monaco.editor.defineTheme('mcide-light', {
     inherit: true,
     rules: [{ background: '#cccccc', foreground: '#555555' }],
     colors: {
-        'editor.foreground': '#00000000',
+        'editor.foreground': '#999999',
         'editor.background': '#00000000',
     }
 });

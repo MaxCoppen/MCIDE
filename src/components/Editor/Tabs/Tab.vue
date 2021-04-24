@@ -14,7 +14,7 @@
     </div>
 
     <div v-show="filedata.changed === true" class="close-ico-parent">
-        <button class="close-btn d-flex justify-content-center" @click="close()">
+        <button class="change-btn d-flex justify-content-center" @click="close()">
             <i class="changes-ico" data-feather="circle"></i>
         </button>
     </div>
@@ -148,6 +148,18 @@ export default {
 
 .focus-btn:active {
     color: var(--text-dark);
+}
+
+.change-btn {
+    color: var(--text-dark);
+    background: none;
+    border: none;
+
+    width: 20px;
+    height: 100%;
+    padding: 0;
+
+    transition: opacity 0.2s, color 0.2s;
 }
 
 .close-btn {

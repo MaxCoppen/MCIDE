@@ -24,7 +24,7 @@ async function createWindow() {
     backgroundColor: "#404040",
 
     icon: process.cwd() + '/src/assets/short-icon.ico',
-
+    
     webPreferences: {
       
       // Use pluginOptions.nodeIntegration, leave this alone
