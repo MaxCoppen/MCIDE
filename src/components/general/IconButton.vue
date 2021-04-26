@@ -1,7 +1,7 @@
 <template>
 
-<button class="btn" @click="buttonClicked()">
-    <i class="ico abs-center" :data-feather="icon" :style="{height: height, 'stroke-width': stroke}"></i>
+<button class="btn ico-button" @click="buttonClicked()">
+    <i class="ico" :data-feather="icon" :style="{ height: size ? size : '66%', 'stroke-width': stroke }"></i>
 </button>
 
 </template>
@@ -9,10 +9,11 @@
 <script>
 
 export default {
+    name: 'IconButton',
     props: {
         icon: String,
-        stroke: String,
-        height: String
+        stroke: { type: String, default: '2px' },
+        size: String
     },
     methods: {
         buttonClicked() {
@@ -25,7 +26,7 @@ export default {
 
 <style scoped>
 
-button {
+.ico-button {
     background-color: var(--background-dark);
     color: var(--text-dark);
 
@@ -34,28 +35,25 @@ button {
 
     border-radius: 0;
 
-    width: 30px; 
+    width: 100%; 
     height: 100%;
     position: relative;
-    transition: background-color 0.2s, color 0.2s;
 }
 
-button:hover {
+.ico-button:hover {
     background-color: var(--background-light);
     color: var(--text-dark);
 }
 
-button:active {
+.ico-button:active {
     background-color: var(--background-darker);
     color: var(--text-light);
 }
 
 .ico {
-    height: 18px;
     width: auto;
-
     position: absolute;
-    top: 48%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 }

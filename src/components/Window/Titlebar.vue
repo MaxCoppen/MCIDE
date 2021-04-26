@@ -5,7 +5,7 @@
 
         <!-- Drag Bar -->
         <div class="dragbar center flex-grow-1">
-            <h6 class="title monospace">
+            <h6 class="title monospace" @click="setPath('/')">
                 MCIDE
             </h6>
         </div>
@@ -16,14 +16,14 @@
             <div class="d-flex align-items-start flex-row w-100 h-100">
 
                 <!-- Minimize Window Button -->
-                <Button icon="minus" stroke="2px" height="16px" @onclick="$emit('minWindow')" />
+                <Button icon="minus" @onclick="minimize()" size="90%" stroke="1.5px" class="window-button" />
 
                 <!-- Maximize Window Button -->
-                <Button v-show="maximized" icon="minimize" stroke="3px" height="12px" @onclick="maximize()" />
-                <Button v-show="!maximized" icon="maximize" stroke="3px" height="12px" @onclick="maximize()" />
+                <Button v-show="maximized" icon="minimize" size="60%" stroke="2px" @onclick="maximize()" class="window-button" />
+                <Button v-show="!maximized" icon="square" size="60%" stroke="2px" @onclick="maximize()" class="window-button" />
 
                 <!-- Close Window Button -->
-                <Button icon="x" stroke="2px" height="16px" @onclick="$emit('closeWindow')" class="close-button" />
+                <Button icon="x" @onclick="close()" size="90%" stroke="1.5px" class="close-button" />
 
             </div>
 
@@ -35,11 +35,10 @@
 </template>
 
 <script>
-// Electron remote:
-const remote = require('@electron/remote')
-var window = remote.getCurrentWindow()
+// Electron inter process connection.
+const ipc = window.require('electron').ipcRenderer
 
-import Button from '../Buttons/WindowButton'
+import Button from '../general/IconButton'
 
 export default {
     components: { Button },
@@ -51,11 +50,11 @@ export default {
     },
 
     mounted() {
-        window.on('maximize', () => {
+        ipc.on('app-maximized', () => {
             this.maximized = true
         })
 
-        window.on('unmaximize', () => {
+        ipc.on('app-unmaximized', () => {
             this.maximized = false
         })
     },
@@ -63,8 +62,20 @@ export default {
     methods: {
 
         maximize() {
-            this.$emit('maxWindow')
+            ipc.send('maximize')
         },
+
+        minimize() {
+            ipc.send('minimize')
+        },
+
+        close() {
+            ipc.send('close')
+        },
+
+        setPath(new_path) {
+            this.$router.push(new_path)
+        }
 
     },
 }
@@ -78,20 +89,21 @@ export default {
     -webkit-user-select: none;
     background-color: var(--background-dark);
     width: 100%;
-    height: 30px;
+    height: 20px;
 }
 
 .title {
     -webkit-app-region: no-drag;
-    color: var(--text-dark);
+    color: var(--text-darker);
     font-weight: 600; 
     letter-spacing: 1px; 
     font-size: 12px; 
-    margin: 4px 0px 0px 3px;
+    margin: -1px 0px 0px 1px;
     text-align: left; 
     line-height: 100%;
     width: 42px;
     transition: color 0.2s;
+    cursor: pointer;
 }
 
 .title:hover {
@@ -102,13 +114,33 @@ export default {
     -webkit-app-region: drag;
     margin-left: 5px;
     margin-top: 5px;
-    height: 25px;
+    height: 15px;
 }
 
 .buttons {
     width: 90px;
     height: 100%;
     text-align: right;
+}
+
+.window-button {
+    background-color: var(--background-dark);
+    color: var(--text-darker);
+}
+
+.window-button:hover {
+    background-color: var(--background-light);
+    color: var(--text-light);
+}
+
+.window-button:active {
+    background-color: var(--background-darker);
+    color: var(--text-light);
+}
+
+.close-button {
+    background-color: var(--background-dark);
+    color: var(--text-darker);
 }
 
 .close-button:hover {

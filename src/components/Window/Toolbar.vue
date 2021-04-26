@@ -39,7 +39,7 @@
 
 <script>
 
-import Button from '../Buttons/IconButton'
+import Button from '../general/IconButton'
 
 export default {
     components: { Button },

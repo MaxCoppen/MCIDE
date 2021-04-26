@@ -1,6 +1,10 @@
 'use strict'
 
-import { app, protocol, BrowserWindow } from 'electron'
+// Custom javascript imports:
+import setupMenu from './js/shortcuts'
+
+// Electron imports:
+import { app, protocol, BrowserWindow, ipcMain } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
@@ -20,22 +24,37 @@ async function createWindow() {
     minWidth: 210,
     minHeight: 210,
 
+    show: false,
     frame: false,
-    backgroundColor: "#404040",
+    backgroundColor: "#00000000",
 
     icon: process.cwd() + '/src/assets/short-icon.ico',
     
     webPreferences: {
-      
-      // Use pluginOptions.nodeIntegration, leave this alone
-      // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
       nodeIntegration: true,
       enableRemoteModule: true,
       contextIsolation: false,
     }
   })
 
+  // Add the window titlebar events:
+  ipcMain.on('maximize', () => { win.isMaximized() ? win.unmaximize() : win.maximize() })
+  ipcMain.on('minimize', () => { win.minimize() })
+  ipcMain.on('close', () => { win.close() })
+
+  // Add generic window events:
   win.on('close', win.destroy);
+  win.on('maximize', () => win.webContents.send('app-maximized'))
+  win.on('unmaximize', () => win.webContents.send('app-unmaximized'))
+  win.on('resized', () => win.webContents.send('app-resized'))
+
+  // Setup the window menu:
+  setupMenu(win)
+
+  // Show once ready:
+  win.once('ready-to-show', () => {
+    win.show()
+  })
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
