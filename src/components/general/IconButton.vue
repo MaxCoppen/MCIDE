@@ -1,6 +1,6 @@
 <template>
 
-<button class="btn ico-button" @click="buttonClicked()">
+<button class="ico-button" @click="buttonClicked()">
     <i class="ico" :data-feather="icon" :style="{ height: size ? size : '66%', 'stroke-width': stroke }"></i>
 </button>
 
@@ -30,8 +30,9 @@ export default {
     background-color: var(--background-dark);
     color: var(--text-dark);
 
-    box-shadow: none !important; 
-    outline: 0 !important;
+    box-shadow: none; 
+    border: none;
+    outline: 0;
 
     border-radius: 0;
 

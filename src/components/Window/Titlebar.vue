@@ -16,14 +16,14 @@
             <div class="d-flex align-items-start flex-row w-100 h-100">
 
                 <!-- Minimize Window Button -->
-                <Button icon="minus" @onclick="minimize()" size="90%" stroke="1.5px" class="window-button" />
+                <Button icon="minus" @onclick="minimize()" size="80%" stroke="2px" class="window-button" />
 
                 <!-- Maximize Window Button -->
-                <Button v-show="maximized" icon="minimize" size="60%" stroke="2px" @onclick="maximize()" class="window-button" />
-                <Button v-show="!maximized" icon="square" size="60%" stroke="2px" @onclick="maximize()" class="window-button" />
+                <Button v-show="maximized" icon="minimize" size="55%" stroke="2.5px" @onclick="maximize()" class="window-button" />
+                <Button v-show="!maximized" icon="square" size="55%" stroke="2.5px" @onclick="maximize()" class="window-button" />
 
                 <!-- Close Window Button -->
-                <Button icon="x" @onclick="close()" size="90%" stroke="1.5px" class="close-button" />
+                <Button icon="x" @onclick="close()" size="80%" stroke="2px" class="close-button" />
 
             </div>
 

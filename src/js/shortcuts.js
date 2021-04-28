@@ -14,6 +14,16 @@ const setupMenu = win => {
         }]
     }))
 
+    // Debug item for refreshing the window:
+    menu.append(new MenuItem({
+        label: 'Debug',
+        submenu: [{
+            role: 'refresh',
+            accelerator: process.platform === 'darwin' ? 'Cmd+R' : 'Ctrl+R',
+            click: () => { win.reload() }
+        }]
+    }))
+
     // Open file shortcut:
     menu.append(new MenuItem({
         label: 'File',

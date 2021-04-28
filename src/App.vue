@@ -7,8 +7,9 @@
       <Titlebar @minWindow="minimize()" @maxWindow="maximize()" @closeWindow="close()" @iconUpdate="iconUpdate()" />
 
       <!-- Window Body -->
-      <div class="d-flex flex-grow-1 flex-row w-100">
-        <router-view />
+      <div class="app-body flex-grow-1 w-100">
+        <window view="welcome"></window>
+        <window view="editor"></window>
       </div>
 
       <!-- Window Footer -->
@@ -29,11 +30,12 @@ const feather = require('feather-icons')
 // Window components:
 import Titlebar from './components/window/Titlebar'
 import Footer from './components/window/Footer'
+import Window from './components/structure/Window'
 
 export default {
     name: 'App',
 
-    components: { Titlebar, Footer },
+    components: { Titlebar, Footer, Window },
 
     mounted() {
         feather.replace()
@@ -55,11 +57,19 @@ export default {
 
 <style>
 
+#app * {
+  transition: none;
+}
+
 #app {
   overflow: hidden;
   text-align: center;
   color: var(--text-light);
   background-color: var(--background);
+}
+
+.app-body {
+  margin-bottom: 20px;
 }
 
 </style>
