@@ -37,13 +37,16 @@
 
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
 
-import Button from '../general/IconButton'
+import Button from '@/components/general/IconButton.vue'
 
-export default {
+export default defineComponent({
+    name: 'app-toolbar',
+
     components: { Button },
-}
+})
 
 </script>
 

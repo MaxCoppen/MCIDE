@@ -1,4 +1,5 @@
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin')
+const path = require('path')
 
 module.exports = {
     configureWebpack: {
@@ -7,7 +8,13 @@ module.exports = {
              // available options are documented at https://github.com/Microsoft/monaco-editor-webpack-plugin#options
              languages: ['javascript', 'css', 'html', 'typescript', 'c', 'cpp', 'csharp', 'json']
            })
-        ]
+        ],
+
+        resolve: {
+            alias: {
+                '@': path.resolve(__dirname, 'src')
+            }
+        }
     },
 
     pluginOptions: {

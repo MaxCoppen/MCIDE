@@ -34,13 +34,17 @@
 
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
+
 // Electron inter process connection.
 const ipc = window.require('electron').ipcRenderer
 
-import Button from '../general/IconButton'
+import Button from '@/components/general/IconButton.vue'
 
-export default {
+export default defineComponent({
+    name: 'app-titlebar',
+
     components: { Button },
 
     data() {
@@ -73,12 +77,12 @@ export default {
             ipc.send('close')
         },
 
-        setPath(new_path) {
+        setPath(new_path: string) {
             this.$router.push(new_path)
         }
 
     },
-}
+})
 
 </script>
 

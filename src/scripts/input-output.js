@@ -87,7 +87,7 @@ async function openFolder() {
                         // If node doesn't exist:
                         if (!node.nodes.some(n => n.name == tokens[i])) {
                             // Get all the data to push:
-                            const nodename = tokens[i]
+                            nodename = tokens[i]
                             var nodetype;
                             if (nodename.includes('.'))
                                 nodetype = tokens[i].split('.')[tokens[i].split('.').length - 1]

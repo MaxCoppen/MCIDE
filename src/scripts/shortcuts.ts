@@ -1,14 +1,14 @@
 import { Menu, MenuItem } from 'electron'
 
 // Setup the window menu:
-const setupMenu = win => {
+const setupMenu = (win: any) => {
     const menu = new Menu()
 
     // Debug item for opening the inspector:
     menu.append(new MenuItem({
         label: 'Debug',
         submenu: [{
-            role: 'inspector',
+            role: 'toggleDevTools',
             accelerator: process.platform === 'darwin' ? 'Cmd+Shift+I' : 'Ctrl+Shift+I',
             click: () => { win.webContents.openDevTools() }
         }]
@@ -18,7 +18,7 @@ const setupMenu = win => {
     menu.append(new MenuItem({
         label: 'Debug',
         submenu: [{
-            role: 'refresh',
+            role: 'reload',
             accelerator: process.platform === 'darwin' ? 'Cmd+R' : 'Ctrl+R',
             click: () => { win.reload() }
         }]
@@ -27,8 +27,9 @@ const setupMenu = win => {
     // Open file shortcut:
     menu.append(new MenuItem({
         label: 'File',
+        sublabel: 'Open File',
         submenu: [{
-            role: 'open file',
+            role: 'fileMenu',
             accelerator: process.platform === 'darwin' ? 'Cmd+O' : 'Ctrl+O',
             click: () => { win.webContents.send('menu-openfile') }
         }]
@@ -37,8 +38,9 @@ const setupMenu = win => {
     // New project shortcut:
     menu.append(new MenuItem({
         label: 'File',
+        sublabel: 'New Project',
         submenu: [{
-            role: 'new project',
+            role: 'fileMenu',
             accelerator: process.platform === 'darwin' ? 'Cmd+N' : 'Ctrl+N',
             click: () => { win.webContents.send('menu-newproject') }
         }]
@@ -47,8 +49,9 @@ const setupMenu = win => {
     // Open project shortcut:
     menu.append(new MenuItem({
         label: 'File',
+        sublabel: 'Open Project',
         submenu: [{
-            role: 'open project',
+            role: 'fileMenu',
             accelerator: process.platform === 'darwin' ? 'Cmd+K' : 'Ctrl+K',
             click: () => { win.webContents.send('menu-openproject') }
         }]
