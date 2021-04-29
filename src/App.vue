@@ -8,8 +8,13 @@
 
       <!-- Window Body -->
       <div class="app-body flex-grow-1 w-100">
-        <window view="welcome"></window>
-        <window view="editor"></window>
+        <div ref="free" class="free-windows d-flex">
+          <window view="welcome"></window>
+          <window view="editor"></window>
+        </div>
+        <div class="d-flex flex-row">
+          
+        </div>
       </div>
 
       <!-- Window Footer -->
@@ -70,6 +75,11 @@ export default {
 
 .app-body {
   margin-bottom: 20px;
+}
+
+.free-windows {
+  width: 100%;
+  height: 100%;
 }
 
 </style>

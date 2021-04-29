@@ -70,10 +70,10 @@ export default {
                 var tgtRect = this.$refs.window.getBoundingClientRect();
 
                 // Bound the window to its parent:
-                if (tgtRect.left < pRect.left) this.$refs.window.style.left = 0;
-                if (tgtRect.top < pRect.top) this.$refs.window.style.top = 0;
-                if (tgtRect.right > pRect.right) this.$refs.window.style.left = pRect.width - tgtRect.width + 'px';
-                if (tgtRect.bottom > pRect.bottom) this.$refs.window.style.top = pRect.height - tgtRect.height + 'px';
+                if (tgtRect.left < pRect.left) this.$refs.window.style.left = pRect.left + 'px';
+                if (tgtRect.top < pRect.top) this.$refs.window.style.top = pRect.top + 'px';
+                if (tgtRect.right > pRect.right) this.$refs.window.style.left = pRect.right - tgtRect.width + 'px';
+                if (tgtRect.bottom > pRect.bottom) this.$refs.window.style.top = pRect.bottom - tgtRect.height + 'px';
             }
         },
 
@@ -96,7 +96,7 @@ export default {
     width: 300px;
     height: 200px;
 
-    position: relative;
+    position: absolute;
 
     display: flex;
     flex-direction: column;
