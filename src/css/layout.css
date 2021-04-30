@@ -6,6 +6,9 @@
 .lm-root {
     position: relative;
 
+    display: flex;
+    flex-direction: column;
+
     background-color: #121212;
 }
 
@@ -19,17 +22,19 @@
 
 /* Layout item */
 .lm-item {
-
+    border: 1px solid darkgray;
 }
 
 /* Layout flex row */
 .lm-row {
-
+    display: flex;
+    flex-direction: row;
 }
 
 /* Layout flex column */
 .lm-column {
-
+    display: flex;
+    flex-direction: column;
 }
 
 /* Layout stacked items */
@@ -39,17 +44,17 @@
 
 /* Layout splitter */
 .lm-splitter {
-
+    user-select: none;
 }
 
 /* Layout horizontal splitter */
 .lm-horizontal {
-
+    background-color: white;
 }
 
 /* Layout horizontal splitter */
 .lm-vertical {
-
+    background-color: white;
 }
 
 /* Layout item header */

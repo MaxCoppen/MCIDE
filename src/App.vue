@@ -13,7 +13,7 @@
           <window view="editor"></window>
         </div>
         <div class="page-layout d-flex flex-row">
-          <Layout :tree="tree" />
+          <layout-manager :config="config" />
         </div>
       </div>
 
@@ -39,62 +39,54 @@ import Titlebar from '@/components/window/AppTitlebar.vue'
 import Footer from '@/components/window/Footer.vue'
 import Window from '@/components/structure/Window.vue'
 
-import Layout from '@/components/structure/Layout.vue'
+import LayoutManager from '@/components/structure/LayoutManager.vue'
 
 export default defineComponent({
     name: 'App',
 
-    components: { Titlebar, Footer, Window, Layout },
+    components: { Titlebar, Footer, Window, LayoutManager },
 
     data() {
       return {
-        tree: {
-                name: 'base',
-                layout: 'row',
-                
-                childern: [
-                    {
-                        name: 'column',
-                        layout: 'col',
-
-                        childern: [
-                            {
-                                name: 'item-1',
-                                layout: 'row'
-                            },
-                            {
-                                name: 'item-2',
-                                layout: 'row'
-                            }
-                        ]
-                    },
-                    {
-                        name: 'row',
-                        layout: 'row',
-
-                        childern: [
-                            {
-                                name: 'item-3',
-                                layout: 'col'
-                            },
-                            {
-                                name: 'item-4',
-                                layout: 'col',
-                                childern: [
-                                    {
-                                        name: 'item-5',
-                                        layout: 'row'
-                                    },
-                                    {
-                                        name: 'item-6',
-                                        layout: 'row'
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                ]
-            }
+        config: {
+            content: [{
+                type: 'row',
+              content:[{
+                type: 'stack',
+                width: 60,
+                content:[{
+                      type: 'component',
+                      componentName: 'testComponent',
+                      title:'Component 1'
+                  },{
+                      type: 'component',
+                      componentName: 'testComponent',
+                      title:'Component 2'
+                  }]
+              },{
+                type: 'stack',
+                width: 60,
+                content:[{
+                      type: 'component',
+                      componentName: 'testComponent',
+                      title:'Component 1'
+                  },{
+                      type: 'component',
+                      componentName: 'testComponent',
+                      title:'Component 2'
+                  }]
+              },{
+                    type: 'column',
+                    content:[{
+                        type: 'component',
+                        componentName: 'testComponent'
+                    },{
+                        type: 'component',
+                        componentName: 'testComponent'
+                    }]
+                }]
+            }]
+        },
       }
     },
 
@@ -143,7 +135,7 @@ export default defineComponent({
 
 .page-layout {
   width: 100%;
-  height: 100%;
+  height: calc(100vh - 40px);
 }
 
 </style>

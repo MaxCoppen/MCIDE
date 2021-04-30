@@ -1,12 +1,24 @@
 <template>
 
-<div class="grid-content d-flex flex-column">
-    <a v-if="!tree.childern">{{tree.name}}</a>
-
-    <div class="layout-panel d-flex" v-if="tree.childern" :class="{ 'flex-row': tree.layout != 'row', 'flex-column': tree.layout == 'col' }">
-        <child-panel v-for="(child, index) in tree.childern" :key="index" :tree="child" />
-    </div>
+<div class="lm-item"
+    :class="{ 
+        'lm-row': config.type == 'row',
+        'lm-column': config.type == 'column',
+        'lm-stack': config.type == 'stack' 
+    }">
+    
+    <layout-item
+        v-for="(item, index) in config.content" 
+        :key="index" 
+        :config="item"
+        :parent="config.type"
+        :index="index"
+        :length="config.content.length"
+    />
 </div>
+
+<div v-if="parent == 'row' && index != length - 1" class="lm-splitter lm-horizontal"></div>
+<div v-if="parent == 'column' && index != length - 1" class="lm-splitter lm-vertical"></div>
 
 </template>
 
@@ -16,14 +28,11 @@ export default {
     name: 'layout-item',
 
     props: {
-        tree: Object
+        config: Object,
+        parent: String,
+        index: Number,
+        length: Number
     }
 }
 
 </script>
-
-<style scoped>
-
-@import '../../css/layout.css';
-
-</style>
