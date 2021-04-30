@@ -1,0 +1,85 @@
+/*
+  * Layout Manager CSS *
+*/
+
+/* Layout root */
+.lm-root {
+    position: relative;
+
+    background-color: #121212;
+}
+
+/* Layout drop indicator */
+.lm-indicator {
+    box-shadow: inset 0 0 30px rgb(0 0 0 / 40%);
+    outline: 1px dashed #cccccc;
+    margin: 1px;
+    transition: all 200ms ease;
+}
+
+/* Layout item */
+.lm-item {
+
+}
+
+/* Layout flex row */
+.lm-row {
+
+}
+
+/* Layout flex column */
+.lm-column {
+
+}
+
+/* Layout stacked items */
+.lm-stack {
+
+}
+
+/* Layout splitter */
+.lm-splitter {
+
+}
+
+/* Layout horizontal splitter */
+.lm-horizontal {
+
+}
+
+/* Layout horizontal splitter */
+.lm-vertical {
+
+}
+
+/* Layout item header */
+.lm-item-header {
+    overflow: visible;
+    position: relative;
+    z-index: 1;
+}
+
+/* Layout item header tabs */
+.lm-tabs {
+
+}
+
+/* Layout item header tab */
+.lm-tab {
+
+}
+
+/* Layout item header tab active */
+.lm-active {
+
+}
+
+/* Layout items */
+.lm-items {
+
+}
+
+/* Layout item body */
+.lm-item-body {
+
+}

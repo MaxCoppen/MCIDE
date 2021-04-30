@@ -13,7 +13,7 @@
 <script>
 
 export default {
-    name: 'child-panel',
+    name: 'layout-item',
 
     props: {
         tree: Object
@@ -22,18 +22,8 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 
-.grid-content {
-    background: #121212;
-    border: 1px solid #D9D9D9;
-    width: 100%;
-    height: 100%;
-}
-
-.layout-panel {
-    width: 100%;
-    height: 100%;
-}
+@import '../../css/layout.css';
 
 </style>
